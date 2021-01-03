@@ -1,0 +1,28 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+D:/msys64/home/Olivier/webots/projects/robots/mobsya/thymio/libraries/dashel-src/dashel/dashel.h
+string
+-
+set
+-
+map
+-
+vector
+-
+deque
+-
+stdexcept
+-
+
+D:/msys64/home/Olivier/webots/projects/robots/mobsya/thymio/libraries/dashel-src/examples/portlist.cpp
+dashel/dashel.h
+-
+iostream
+-
+

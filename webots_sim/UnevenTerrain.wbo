@@ -1,0 +1,12 @@
+#VRML_OBJ R2021a utf8
+UnevenTerrain {
+  size 500 60 500
+  xDimension 100
+  zDimension 100
+  appearance SandyGround {
+    textureTransform TextureTransform {
+      scale 500 500
+    }
+  }
+  perlinNOctaves 6
+}
