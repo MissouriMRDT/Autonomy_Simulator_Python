@@ -7,4 +7,4 @@ centralWidgetVisible: 1
 orthographicViewHeight: 1
 textFiles: 0 "controllers/move/move.py"
 consoles: Console:All:All
-renderingDevicePerspectives: Sojourner:camera;1;1;0;0
+renderingDevicePerspectives: Sojourner:camera;1;3.125;0.00351208;0

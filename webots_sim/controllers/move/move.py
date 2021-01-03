@@ -85,8 +85,11 @@ rightMotor3.setPosition(float("inf"))
 def send_sensor_data():
     global sensor_update_timer
     if current_milli_time() - sensor_update_timer > UPDATE_RATE:
-        lat, alt, lon = gps.getValues()
+        lat, lon, alt = gps.getValues()
         roll, pitch, yaw = imu.getRollPitchYaw()
+        print(f"lat: {lat}")
+        print(f"lon: {lon}")
+        #print(f"alt: {alt}")
         # Some lambdas to handle sensor data conversion
         conv_gps_to_int = lambda x: 0 if math.isnan(x) else int(x * 1e7)
         conv_imu_to_int = lambda x: 0 if math.isnan(x) else int(x)
@@ -128,7 +131,7 @@ def send_sensor_data():
 
 while robot.step(timeStep) != -1:
     # Very rudimentary watchdog
-    if current_milli_time() - watchdog_timer > UPDATE_RATE:
+    if current_milli_time() - watchdog_timer > UPDATE_RATE*1.5:
         leftMotor.setVelocity(0)
         leftMotor2.setVelocity(0)
         leftMotor3.setVelocity(0)
