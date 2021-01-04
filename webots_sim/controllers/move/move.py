@@ -1,6 +1,6 @@
 """Simple robot controller."""
 
-from controller import Robot, Keyboard, Mouse
+from controller import Robot, Keyboard, Pen
 import sys, time, math
 from rovecomm import RoveComm, RoveCommPacket
 
@@ -71,6 +71,9 @@ imu.enable(64)
 compass = robot.getDevice("compass")
 compass.enable(64)
 
+pen = robot.getDevice("pen")
+pen.write(True)
+
 
 # Disable motor PID control mode.
 leftMotor.setPosition(float("inf"))
@@ -97,8 +100,8 @@ def send_sensor_data():
         # Convert lat, lon to ints, some NaN trickiness
         lat = conv_gps_to_int(lat)
         lon = conv_gps_to_int(lon)
-        #print(f"lat: {lat * 1e-7}")
-        #print(f"lon: {lon * 1e-7}")
+        print(f"lat: {lat * 1e-7}")
+        print(f"lon: {lon * 1e-7}")
         
         # Convert pitch, yaw, roll to degrees (is in radians)
         yaw = -yaw
@@ -110,7 +113,7 @@ def send_sensor_data():
         if yaw < 0:
             yaw = 360 + yaw
             
-        print(yaw)
+        #print(yaw)
         
         # Convert pitch, yaw, roll to ints
         roll = conv_imu_to_int(roll)
