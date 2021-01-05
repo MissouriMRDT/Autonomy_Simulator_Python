@@ -5,6 +5,9 @@ sceneTreePerspectives: 000000ff0000000100000002000000c0000000fa01000000020100000
 maximizedDockId: -1
 centralWidgetVisible: 1
 orthographicViewHeight: 1
-textFiles: 0 "controllers/move/move.py"
+textFiles: 0 "controllers/move/move.py" "controllers/move/rovecomm.py"
 consoles: Console:All:All
-renderingDevicePerspectives: Sojourner:camera;1;4.35938;0;0
+renderingDevicePerspectives: Sojourner:camera;0;0.29375;0;0;1662;423;806;662;0
+x3dExport-shadowBias: 0
+x3dExport-shadowMapSize: 2048
+x3dExport-shadowRadius: 0

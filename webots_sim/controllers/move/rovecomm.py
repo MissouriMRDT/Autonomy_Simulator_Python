@@ -275,7 +275,6 @@ class RoveCommEthernetUdp:
                 self.RoveCommSocket.sendto(rovecomm_packet, packet.ip_address)
             return 1
         except Exception as e:
-            print(e)
             return 0
 
     def read(self):
@@ -321,7 +320,6 @@ class RoveCommEthernetUdp:
                 return return_packet
 
             except Exception as e:
-                print(e)
                 return_packet = RoveCommPacket()
                 return return_packet
 
