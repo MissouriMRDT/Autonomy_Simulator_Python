@@ -3,6 +3,9 @@
 from controller import Robot, Keyboard, Pen
 import sys, time, math
 from rovecomm import RoveComm, RoveCommPacket
+import socket, cv2, pickle,struct
+import numpy as np
+
 
 
 current_milli_time = lambda: int(round(time.time() * 1000))
@@ -15,9 +18,20 @@ UPDATE_RATE = 100
 # Define the max motor speed in radians.
 MAX_SPEED = 0.6
 
+# Socket Create
+server_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+host_name  = socket.gethostname()
+host_ip = socket.gethostbyname(host_name)
+print('HOST IP:',host_ip)
+port = 9999
+socket_address = (host_ip,port)
 
-def test(packet):
-    print("Hello")
+# Socket Bind
+server_socket.bind(socket_address)
+
+# Socket Listen
+server_socket.listen(5)
+print("LISTENING AT:",socket_address)
 
 
 def drive(packet):
@@ -84,14 +98,13 @@ rightMotor.setPosition(float("inf"))
 rightMotor2.setPosition(float("inf"))
 rightMotor3.setPosition(float("inf"))
 
-
 def send_sensor_data():
     global sensor_update_timer
     if current_milli_time() - sensor_update_timer > UPDATE_RATE:
         lat, lon, alt = gps.getValues()
         roll, pitch, yaw = imu.getRollPitchYaw()
-        print(f"lat: {lat}")
-        print(f"lon: {lon}")
+        #print(f"lat: {lat}")
+        #print(f"lon: {lon}")
         #print(f"alt: {alt}")
         # Some lambdas to handle sensor data conversion
         conv_gps_to_int = lambda x: 0 if math.isnan(x) else int(x * 1e7)
@@ -100,8 +113,8 @@ def send_sensor_data():
         # Convert lat, lon to ints, some NaN trickiness
         lat = conv_gps_to_int(lat)
         lon = conv_gps_to_int(lon)
-        print(f"lat: {lat * 1e-7}")
-        print(f"lon: {lon * 1e-7}")
+        #print(f"lat: {lat * 1e-7}")
+        #print(f"lon: {lon * 1e-7}")
         
         # Convert pitch, yaw, roll to degrees (is in radians)
         yaw = -yaw
@@ -130,7 +143,8 @@ def send_sensor_data():
 
         # Update the timer
         sensor_update_timer = current_milli_time()
-
+        
+client_socket = None
 
 while robot.step(timeStep) != -1:
     # Very rudimentary watchdog
@@ -146,47 +160,18 @@ while robot.step(timeStep) != -1:
 
     # send the sensor data to the autonomy program
     send_sensor_data()
+    
+    # stream the camera feed directly to autonomy
+    rawString = camera.getImage()
+    if client_socket == None:
+        client_socket,addr = server_socket.accept()
+        print('GOT CONNECTION FROM:',addr)
+    if client_socket:
+        frame = np.frombuffer(rawString, np.uint8).reshape((camera.getHeight(), camera.getWidth(), 4))
+        a = pickle.dumps(frame)
+        message = struct.pack("Q",len(a))+a
+        client_socket.sendall(message)
+   
+client_socket.close()
 
 
-"""
-    key = keyboard.getKey()
-    if key == Keyboard.LEFT:
-        leftMotor.setVelocity(MAX_SPEED)         
-        leftMotor2.setVelocity(MAX_SPEED)
-        leftMotor3.setVelocity(MAX_SPEED)
-
-        rightMotor.setVelocity(-MAX_SPEED)
-        rightMotor2.setVelocity(-MAX_SPEED)
-        rightMotor3.setVelocity(-MAX_SPEED)
-        watchdog_timer = current_milli_time()
-
-    elif key == Keyboard.RIGHT:
-        leftMotor.setVelocity(-MAX_SPEED)
-        leftMotor2.setVelocity(-MAX_SPEED)
-        leftMotor3.setVelocity(-MAX_SPEED)
-
-        rightMotor.setVelocity(MAX_SPEED)
-        rightMotor2.setVelocity(MAX_SPEED)
-        rightMotor3.setVelocity(MAX_SPEED)
-        watchdog_timer = current_milli_time()
-
-    elif key == Keyboard.UP:
-        leftMotor.setVelocity(-MAX_SPEED)
-        leftMotor2.setVelocity(-MAX_SPEED)
-        leftMotor3.setVelocity(-MAX_SPEED)
-
-        rightMotor.setVelocity(-MAX_SPEED)
-        rightMotor2.setVelocity(-MAX_SPEED)
-        rightMotor3.setVelocity(-MAX_SPEED)
-        watchdog_timer = current_milli_time()
-
-    elif key == Keyboard.DOWN:
-        leftMotor.setVelocity(MAX_SPEED)
-        leftMotor2.setVelocity(MAX_SPEED)
-        leftMotor3.setVelocity(MAX_SPEED)
-
-        rightMotor.setVelocity(MAX_SPEED)
-        rightMotor2.setVelocity(MAX_SPEED)
-        rightMotor3.setVelocity(MAX_SPEED)
-        watchdog_timer = current_milli_time()
-"""
