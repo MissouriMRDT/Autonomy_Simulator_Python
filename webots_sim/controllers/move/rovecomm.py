@@ -80,8 +80,12 @@ class RoveCommPacket:
         self.data_type = data_type
         self.data_count = len(data)
         self.data = data
-        if ip_octet_4 != "":
+        # If the ip is less than 4 chars we know it's the 4th octet, otherwise it's the full IP
+        # in case of empty IP default to unknow IP
+        if ip_octet_4 != "" and len(ip_octet_4) < 4:
             self.ip_address = ("192.168.1." + ip_octet_4, port)
+        elif ip_octet_4 != "" and len(ip_octet_4) >= 4:
+            self.ip_address = (ip_octet_4, port)
         else:
             self.ip_address = ("0.0.0.0", port)
         return
@@ -164,7 +168,6 @@ class RoveComm:
 
         self.udp_node.close_socket()
         self.tcp_node.close_sockets()
-
         # Logger throws an error when logging to console with main thread closed
         if threading.main_thread().is_alive():
             logging.getLogger(__name__).debug("Rovecomm sockets closed")
@@ -274,7 +277,7 @@ class RoveCommEthernetUdp:
             if packet.ip_address != ("0.0.0.0", 0):
                 self.RoveCommSocket.sendto(rovecomm_packet, packet.ip_address)
             return 1
-        except Exception as e:
+        except Exception:
             return 0
 
     def read(self):
@@ -319,7 +322,7 @@ class RoveCommEthernetUdp:
                 return_packet.ip_address = remote_ip
                 return return_packet
 
-            except Exception as e:
+            except Exception:
                 return_packet = RoveCommPacket()
                 return return_packet
 
