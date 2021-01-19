@@ -10,3 +10,4 @@ Currently the simulator mocks the following onboard rover functionality:
 
 - GPS/IMU data (orientation/heading) sent at a rate of 100ms
 - Supports receiving drive commands, with a 150 ms watchdog to stop driving
+- Streaming video feeds from the front of the rover over a local network to Autonomy
