@@ -22,8 +22,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.25781001757806543 -0.9386422980643585 -0.2290952446491581 4.867645102761734
-  position 11.349776281031886 8.31803556390639 0.7628176851969959
+  orientation 0.5309509108979426 -0.7911687137371007 -0.3035509786184636 5.107449406254499
+  position 20.405449016471504 30.848037486923864 16.551787856267975
   followType "None"
 }
 TexturedBackground {
@@ -64,10 +64,19 @@ UnevenTerrain {
   randomSeed 5
 }
 Robot {
-  translation 1.3777161410364909 2.5881104161812845 0.1663612647943099
-  rotation 0.0076651319982059644 0.9995783065178723 -0.02800812186335409 -2.8963538742102437
+  translation 1.3600267835166269 2.588189601896658 0.16668742857652025
+  rotation 0.007803120753859717 0.9995779538444787 -0.02798259270664658 -2.894843707271379
   scale 2 2 2
   children [
+    RangeFinder {
+      translation 0.46 0 0.0100003
+      rotation 0 1 0 -1.5707953071795862
+      fieldOfView 1.48
+      width 1280
+      height 720
+      minRange 0.3
+      maxRange 10
+    }
     Pen {
       translation -0.23 -0.22 0
     }
@@ -308,7 +317,7 @@ Robot {
     }
     DEF bogie_BACKLEFT HingeJoint {
       jointParameters HingeJointParameters {
-        position 0.0005182045198267387
+        position 0.0006314543401136916
         axis 0 0 1
         anchor -0.108 0.015 0.2
         springConstant 10
@@ -318,16 +327,16 @@ Robot {
         RotationalMotor {
           name "BackLeftBogie"
           minPosition -1
-          maxPosition 0.0004665225776651469
+          maxPosition 0.0005797854426347476
         }
       ]
       endPoint Solid {
-        translation -0.10805101895923194 0.015089379680509352 0.1999881418745716
-        rotation 9.166748883972163e-05 0.0001520093004151459 -0.9999999842451222 0.09946657412664231
+        translation -0.1080510290811375 0.01508937390204823 0.1999881418745716
+        rotation 9.176327423300011e-05 0.00015218762470489344 -0.9999999842092141 0.09935332430811096
         children [
           HingeJoint {
             jointParameters HingeJointParameters {
-              position 0.06276482497422822
+              position 0.06250631487111692
               axis 0 0 1
               anchor 0.175 -0.098 -0.023
               minStop -0.7
@@ -335,7 +344,7 @@ Robot {
             }
             endPoint Solid {
               translation 0.175 -0.098 -0.023
-              rotation 0 0 1 0.06276482497422618
+              rotation 0 0 1 0.06250631487111431
               children [
                 DEF motBACKLEFT Transform {
                   translation 0.135 0.015 0.02
@@ -367,7 +376,7 @@ Robot {
                 }
                 HingeJoint {
                   jointParameters HingeJointParameters {
-                    position -3.847591453138694e-05
+                    position -3.844379094413574e-05
                     axis 0 1 0
                     anchor 0.155 0.011 0.02
                   }
@@ -380,11 +389,11 @@ Robot {
                   ]
                   endPoint Solid {
                     translation 0.155 0.011 0.02
-                    rotation 0 -1 0 3.8475917793817386e-05
+                    rotation 0 -1 0 3.844379452802279e-05
                     children [
                       HingeJoint {
                         jointParameters HingeJointParameters {
-                          position 70.1217815801422
+                          position 70.27761416424664
                           axis 0 0 -1
                           anchor 0.025 -0.078 0
                         }
@@ -397,7 +406,7 @@ Robot {
                         ]
                         endPoint Solid {
                           translation 0.025 -0.078 0
-                          rotation 0 0 1 5.276442106012841
+                          rotation 0 0 0.9999999999999999 5.120609521908395
                           children [
                             DEF WHEEL_BACKLEFT_TRANSFORM Transform {
                               scale 0.001 0.001 0.001
@@ -451,8 +460,8 @@ Robot {
                             density -1
                             mass 0.4
                           }
-                          linearVelocity -4.633778328737074e-07 -2.7941596059337e-07 -3.158304120957566e-05
-                          angularVelocity -2.86579632144291e-06 4.4087980915108695e-05 -7.469465487602528e-06
+                          linearVelocity -4.901165874925765e-07 -9.875204156764654e-08 -3.157527606285182e-05
+                          angularVelocity -3.11639797771231e-06 4.387456927411388e-05 -8.481772473841048e-06
                         }
                       }
                       DEF armBACKLEFT Transform {
@@ -489,8 +498,8 @@ Robot {
                       density -1
                       mass 0.05
                     }
-                    linearVelocity 3.906950350518468e-06 -3.519649535821401e-07 -3.429346842844794e-05
-                    angularVelocity -2.4572729387935933e-06 4.4618266602161793e-05 -5.977416490733891e-06
+                    linearVelocity 3.965620697998773e-06 -2.0056667264789497e-07 -3.431543356409162e-05
+                    angularVelocity -2.7112773093892992e-06 4.43837963455047e-05 -7.015093487665332e-06
                   }
                 }
                 DEF armMG Transform {
@@ -516,7 +525,7 @@ Robot {
                 }
                 HingeJoint {
                   jointParameters HingeJointParameters {
-                    position 70.07969567004082
+                    position 70.23552608353968
                     axis 0 0 -1
                     anchor -0.087 -0.078 0.02
                   }
@@ -529,7 +538,7 @@ Robot {
                   ]
                   endPoint Solid {
                     translation -0.087 -0.078 0.02
-                    rotation 0 0 1 5.318528016114217
+                    rotation 0 0 1 5.1626976026153555
                     children [
                       DEF WHEEL_MIDDLELEFT_TRANSFORM Transform {
                         scale 0.001 0.001 0.001
@@ -573,8 +582,8 @@ Robot {
                     name "MiddleLeftWheel"
                     boundingObject USE BOUND_WHEEL
                     physics USE WHEEL_PHYSICS
-                    linearVelocity -2.2656088129237023e-06 -2.7245417271589557e-06 -3.8577389252702716e-05
-                    angularVelocity -1.816115348539439e-06 9.548401675695373e-06 -5.825520063313302e-06
+                    linearVelocity -2.3079025162073352e-06 -3.107603001994259e-06 -3.8550828827172336e-05
+                    angularVelocity -2.0724147919986936e-06 9.496507722618136e-06 -6.849251594758728e-06
                   }
                 }
               ]
@@ -597,8 +606,8 @@ Robot {
                   0 0 0
                 ]
               }
-              linearVelocity -5.03535332569971e-07 -1.21280714534322e-06 -3.579712051777317e-05
-              angularVelocity -1.4299414488964879e-06 9.570130502050489e-06 -4.301845144741813e-06
+              linearVelocity -3.807381875442495e-07 -1.2400570689052871e-06 -3.582451956995802e-05
+              angularVelocity -1.6909157766839798e-06 9.517425733942783e-06 -5.351131400821635e-06
             }
           }
           DEF bogie_MIDDLELEFT_TRANSFORM Transform {
@@ -648,13 +657,13 @@ Robot {
             8.92876e-05 1.75e-05 -4.375e-06
           ]
         }
-        linearVelocity -1.694256110416705e-06 -2.2167453017831105e-06 -3.942702965836923e-05
-        angularVelocity -5.916163680865154e-07 1.0059532414985356e-05 -1.2522828769632757e-06
+        linearVelocity -1.6730811701012475e-06 -2.272641149378022e-06 -3.9425238509508255e-05
+        angularVelocity -4.0036356790663494e-07 1.0080744565827763e-05 -5.311747889704566e-07
       }
     }
     DEF bogie_FRONTLEFT HingeJoint {
       jointParameters HingeJointParameters {
-        position 0.00025227597764037967
+        position 0.0003510714758456618
         axis 0 0 -1
         anchor -0.108 0.015 0.2
         springConstant 6
@@ -666,8 +675,8 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation -0.10795119267329849 0.015133213528930769 0.19999611331882017
-        rotation 6.68187923402136e-05 -3.854189948873379e-05 0.9999999970248854 0.09974461398697945
+        translation -0.10795117951263974 0.015133208706336502 0.19999611331882017
+        rotation 6.688308018092122e-05 -3.8583384743052284e-05 0.999999997018988 0.09964581848906807
         children [
           DEF bogie_FRONTLEFT_TRANSFORM Transform {
             translation -0.075 -0.041 0.006
@@ -716,7 +725,7 @@ Robot {
           }
           HingeJoint {
             jointParameters HingeJointParameters {
-              position -8.560585028013121e-05
+              position -8.707027135234629e-05
               axis 0 1 0
               anchor -0.15 -0.098 -0.005
             }
@@ -729,7 +738,7 @@ Robot {
             ]
             endPoint Solid {
               translation -0.15 -0.098 -0.005
-              rotation 0 -1 0 8.560585212718476e-05
+              rotation 0 -1 0 8.707027352568461e-05
               children [
                 DEF armFRONTLEFT Transform {
                   translation 0 -0.05 -0.02
@@ -753,7 +762,7 @@ Robot {
                 }
                 HingeJoint {
                   jointParameters HingeJointParameters {
-                    position 69.45210454807297
+                    position 69.60792721547803
                     axis 0 0 -1
                     anchor 0 -0.078 0
                   }
@@ -766,7 +775,7 @@ Robot {
                   ]
                   endPoint Solid {
                     translation 0 -0.078 0
-                    rotation 0 0 0.9999999999999999 5.9461191380820715
+                    rotation 0 0 0.9999999999999999 5.79029647067701
                     children [
                       DEF MIDDLE_WHEEL_FRONTLEFT Transform {
                         scale 0.001 0.001 0.001
@@ -809,8 +818,8 @@ Robot {
                     ]
                     boundingObject USE BOUND_WHEEL
                     physics USE WHEEL_PHYSICS
-                    linearVelocity -4.356262956995463e-06 -2.8152528061697154e-06 -4.4352586904586215e-05
-                    angularVelocity -4.474429693529354e-06 -2.4538332167750866e-05 -2.4205756285005154e-07
+                    linearVelocity -4.109788142201458e-06 -2.5982486241190015e-06 -4.4435939204987705e-05
+                    angularVelocity -4.32622285187994e-06 -2.4723696450491943e-05 4.0844213652573613e-07
                   }
                 }
               ]
@@ -826,8 +835,8 @@ Robot {
                 density -1
                 mass 0.05
               }
-              linearVelocity -6.238406180203438e-06 -2.399006376352375e-06 -4.368123454057127e-05
-              angularVelocity -4.14930013851193e-06 -2.499817998261957e-05 1.2528801189015018e-06
+              linearVelocity -6.080717303802442e-06 -2.1670221965752745e-06 -4.3731367793276024e-05
+              angularVelocity -3.9760739845634095e-06 -2.5183393588083826e-05 1.9965920412098197e-06
             }
           }
         ]
@@ -852,13 +861,13 @@ Robot {
             -0.000242335 -0.000105 -7.875e-05
           ]
         }
-        linearVelocity -3.100318942680528e-06 -2.6876077314647823e-06 -4.3105962852031864e-05
-        angularVelocity -3.589562371410901e-07 1.0913928277706708e-05 -1.5614505947984246e-06
+        linearVelocity -2.996171067123513e-06 -2.5178570860262542e-06 -4.313879315286532e-05
+        angularVelocity -1.6298136498130995e-07 1.0918385492357187e-05 -8.370923891871797e-07
       }
     }
     DEF bogie_BACKRIGHT HingeJoint {
       jointParameters HingeJointParameters {
-        position 0.00022219421328730006
+        position 0.0003056311171233063
         axis 0 0 1
         anchor -0.108 0.015 -0.2
         springConstant 10
@@ -868,16 +877,16 @@ Robot {
         RotationalMotor {
           name "BackRightBogie"
           minPosition -1
-          maxPosition 0.00018368947796150356
+          maxPosition 0.0002671831206671041
         }
       ]
       endPoint Solid {
-        translation -0.10800501615267072 0.015066032023801095 -0.20000150914107595
-        rotation 3.474194132385147e-06 2.1100693391577833e-05 -0.9999999997713452 0.09977787756741334
+        translation -0.10800502166216087 0.015066031605038999 -0.20000150914107595
+        rotation 3.4762183378923863e-06 2.1118483511163226e-05 -0.9999999997709628 0.09969444066364672
         children [
           HingeJoint {
             jointParameters HingeJointParameters {
-              position 0.06403415229085732
+              position 0.06387381164850521
               axis 0 0 1
               anchor 0.175 -0.098 0.023
               minStop -0.7
@@ -885,11 +894,11 @@ Robot {
             }
             endPoint Solid {
               translation 0.175 -0.098 0.023
-              rotation 0 0 1 0.06403415229085821
+              rotation 0 0 1 0.06387381164850325
               children [
                 HingeJoint {
                   jointParameters HingeJointParameters {
-                    position -2.3445179230600332e-05
+                    position -1.669389421583236e-05
                     axis 0 1 0
                     anchor 0.155 0.011 -0.02
                   }
@@ -902,7 +911,7 @@ Robot {
                   ]
                   endPoint Solid {
                     translation 0.155 0.011 -0.02
-                    rotation 0 -1 0 2.3445186042527534e-05
+                    rotation 0 -1 0 1.6693903296898107e-05
                     children [
                       DEF armARD Transform {
                         translation 0.02 -0.05 0.02
@@ -926,7 +935,7 @@ Robot {
                       }
                       HingeJoint {
                         jointParameters HingeJointParameters {
-                          position 80.93139803936305
+                          position 81.08696139736915
                           axis 0 0 -1
                           anchor 0.025 -0.079 0
                         }
@@ -939,7 +948,7 @@ Robot {
                         ]
                         endPoint Solid {
                           translation 0.025 -0.079 0
-                          rotation 0 0 -0.9999999999999999 5.5331743532080075
+                          rotation 0 0 -1 5.688737711214113
                           children [
                             DEF MIDDLE_WHEEL_BACKRIGHT Transform {
                               scale 0.001 0.001 0.001
@@ -982,8 +991,8 @@ Robot {
                           ]
                           boundingObject USE BOUND_WHEEL
                           physics USE WHEEL_PHYSICS
-                          linearVelocity 9.231467811244981e-06 -3.555945790222014e-06 -3.384755709769363e-05
-                          angularVelocity -1.075480840467875e-06 4.669051981560839e-05 -4.192448561052085e-07
+                          linearVelocity 9.189777188595426e-06 -3.407901357331981e-06 -3.381275847217991e-05
+                          angularVelocity -1.2911099823772795e-06 4.642847737908732e-05 -1.3540381880968795e-06
                         }
                       }
                     ]
@@ -1000,13 +1009,13 @@ Robot {
                       density -1
                       mass 0.05
                     }
-                    linearVelocity 3.6542721155274907e-06 -3.597669418953231e-06 -3.410664828289445e-05
-                    angularVelocity -3.528403953539131e-08 4.739401869410534e-05 3.6027705174212423e-06
+                    linearVelocity 3.7387688527124045e-06 -3.4733816697940514e-06 -3.4097841046465405e-05
+                    angularVelocity -2.507729496820191e-07 4.708203380784277e-05 2.6406101691477722e-06
                   }
                 }
                 HingeJoint {
                   jointParameters HingeJointParameters {
-                    position 81.23106573385327
+                    position 81.38662798511061
                     axis 0 0 -1
                     anchor -0.087 -0.078 -0.017
                   }
@@ -1019,7 +1028,7 @@ Robot {
                   ]
                   endPoint Solid {
                     translation -0.087 -0.078 -0.017
-                    rotation 0 0 -1 5.832842047698233
+                    rotation 0 0 -1 5.98840429895557
                     children [
                       DEF WHEEL_MIDDLERIGHT Transform {
                         scale 0.001 0.001 0.001
@@ -1063,8 +1072,8 @@ Robot {
                     name "MiddleRightWheel"
                     boundingObject USE BOUND_WHEEL
                     physics USE WHEEL_PHYSICS
-                    linearVelocity 7.371536816720819e-06 -8.525302131822558e-07 -4.11150823414461e-05
-                    angularVelocity -7.57602193774476e-09 9.850347345338214e-06 1.3508746598157602e-06
+                    linearVelocity 7.311304453817932e-06 -1.2296810936622478e-06 -4.1097804678647665e-05
+                    angularVelocity -2.3432439999819372e-07 9.85920174543613e-06 3.997668474147417e-07
                   }
                 }
                 DEF armMD Transform {
@@ -1133,8 +1142,8 @@ Robot {
                   0 0 0
                 ]
               }
-              linearVelocity 6.933085221201285e-06 -2.6793298478011706e-06 -3.764363046076857e-05
-              angularVelocity 1.0113474538541921e-06 1.001002517687971e-05 5.38838274705135e-06
+              linearVelocity 7.028660960770594e-06 -2.7246779616163506e-06 -3.765123826051875e-05
+              angularVelocity 7.829344572516057e-07 1.0018790314373951e-05 4.408514919147941e-06
             }
           }
           DEF bogie_MIDDLERIGHT_TRANSFORM Transform {
@@ -1183,13 +1192,13 @@ Robot {
             6.30376e-05 8.75e-06 4.375e-06
           ]
         }
-        linearVelocity 6.4743045176626374e-06 -2.079290181430541e-06 -4.15050271793227e-05
-        angularVelocity -5.800428669050865e-07 1.0011560619681311e-05 -1.2290556502459323e-06
+        linearVelocity 6.462368928916718e-06 -2.143483209517326e-06 -4.150138330901245e-05
+        angularVelocity -3.8995309855641476e-07 1.0062596559472724e-05 -5.113680038756439e-07
       }
     }
     DEF bogie_FRONTRIGHT HingeJoint {
       jointParameters HingeJointParameters {
-        position 0.00047600773104554807
+        position 0.0005767323080495098
         axis 0 0 -1
         anchor -0.108 0.015 -0.2
         springConstant 6
@@ -1201,8 +1210,8 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation -0.10797480429838337 0.015134406612129014 -0.19999932594089248
-        rotation -2.3519420469702536e-05 1.4999881453901112e-05 0.9999999996109202 0.09952426043502566
+        translation -0.10797479076046204 0.015134404073620824 -0.19999932594089248
+        rotation -2.3542471777997595e-05 1.501625075431162e-05 0.9999999996101321 0.09942353585806245
         children [
           DEF bogie_FRONTRIGHT_TRANSFORM Transform {
             translation -0.075 -0.025 -0.006
@@ -1251,7 +1260,7 @@ Robot {
           }
           HingeJoint {
             jointParameters HingeJointParameters {
-              position 5.023136846953811e-05
+              position 5.7421788071141166e-05
               axis 0 1 0
               anchor -0.15 -0.098 0.005
             }
@@ -1264,11 +1273,11 @@ Robot {
             ]
             endPoint Solid {
               translation -0.15 -0.098 0.005
-              rotation 0 1 0 5.023137013383104e-05
+              rotation 0 1 0 5.742179045625265e-05
               children [
                 HingeJoint {
                   jointParameters HingeJointParameters {
-                    position 80.40703102226756
+                    position 80.56257736969245
                     axis 0 0 -1
                     anchor 0 -0.078 0
                   }
@@ -1281,7 +1290,7 @@ Robot {
                   ]
                   endPoint Solid {
                     translation 0 -0.078 0
-                    rotation 0 0 -1 5.008807336112523
+                    rotation 0 0 -1 5.164353683537411
                     children [
                       DEF WHEEL_FRONTRIGHT Transform {
                         scale 0.001 0.001 0.001
@@ -1324,8 +1333,8 @@ Robot {
                     ]
                     boundingObject USE BOUND_WHEEL
                     physics USE WHEEL_PHYSICS
-                    linearVelocity 6.16494823072523e-06 -2.6136951029684406e-06 -4.6060299908870405e-05
-                    angularVelocity 3.4334240372001495e-06 5.305108852947536e-05 -8.443848020158147e-06
+                    linearVelocity 6.444742748698757e-06 -2.400980989890568e-06 -4.611962721701102e-05
+                    angularVelocity 3.7137840665122596e-06 5.3813733432768194e-05 -7.875575374752651e-06
                   }
                 }
                 DEF armFRONTRIGHT Transform {
@@ -1361,8 +1370,8 @@ Robot {
                 density -1
                 mass 0.05
               }
-              linearVelocity 6.144501163984906e-07 -2.0762126578421915e-06 -4.4673694778119e-05
-              angularVelocity 4.390118821187769e-06 5.376741985423737e-05 -4.59435728900609e-06
+              linearVelocity 7.293345816616892e-07 -1.8353975175688932e-06 -4.4681417679592886e-05
+              angularVelocity 4.701552260791443e-06 5.462540428849843e-05 -3.93288119063482e-06
             }
           }
         ]
@@ -1387,8 +1396,8 @@ Robot {
             -0.000242335 0.000105 7.875e-05
           ]
         }
-        linearVelocity 5.8706816512575455e-06 -2.498235984330474e-06 -4.4938228638421613e-05
-        angularVelocity -3.6116552065343626e-07 9.840961664702911e-06 -1.093359850747661e-06
+        linearVelocity 5.964627150453365e-06 -2.334525291582322e-06 -4.495602845521672e-05
+        angularVelocity -1.6534868296613268e-07 9.74882800807503e-06 -3.518431824210981e-07
       }
     }
   ]
@@ -1435,8 +1444,8 @@ Robot {
     ]
   }
   controller "move"
-  linearVelocity 2.0665503119936104e-06 -2.315760059524842e-06 -4.1856982506070785e-05
-  angularVelocity -4.742894854066707e-07 1.0302987536569641e-05 -1.2891498394195461e-06
+  linearVelocity 2.046861978718372e-06 -2.292644341710886e-06 -4.185627434992333e-05
+  angularVelocity -2.8087605098178353e-07 1.030104163259664e-05 -5.62358517199723e-07
 }
 Oak {
   translation -7.66 1.9 0.52
@@ -1449,8 +1458,8 @@ OilBarrel {
   translation -9.28 3.3 4.82
 }
 DEF AR_Tag Solid {
-  translation -4.48 2.46 -1.36
-  rotation 1 9.58979e-09 9.58979e-09 -1.5707953071795862
+  translation 2.65 2.46 6.23
+  rotation 0.5773502691896258 -0.5773502691896258 -0.5773502691896258 -2.094395307179586
   scale 20 20 20
   children [
     Solid {

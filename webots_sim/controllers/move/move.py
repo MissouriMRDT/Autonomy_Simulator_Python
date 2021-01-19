@@ -93,6 +93,9 @@ compass.enable(64)
 pen = robot.getDevice("pen")
 pen.write(True)
 
+depth = robot.getDevice("range-finder")
+depth.enable(64)
+
 
 # Disable motor PID control mode.
 leftMotor.setPosition(float("inf"))
@@ -162,7 +165,7 @@ while robot.step(timeStep) != -1:
 
     # send the sensor data to the autonomy program
     send_sensor_data()
-    
+    #print(depth.getRangeImageArray())
     if current_milli_time() - camera_update_timer > (1000/30):
         # stream the camera feed directly to autonomy
         if client_socket == None:
