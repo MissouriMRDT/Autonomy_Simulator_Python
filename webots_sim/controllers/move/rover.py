@@ -173,20 +173,19 @@ class Rover:
 
                 # Pickle the frame, and send it over socket
                 a = pickle.dumps(frame)
+                # Pack message, specify this is "r"egular image
                 message = struct.pack("Q", len(a)) + "r".encode() + a
                 self.client_socket.sendall(message)
 
                 # Do the same for the depth frame
                 depth_frame = self.depth.getRangeImage()
 
-                # Depth frame has dimensions half of that of the regular frame
+                # Depth is a float, so convert those to bytes
                 depth_frame = struct.pack("%sf" % len(depth_frame), *depth_frame)
-                # result, depth_frame = cv2.imencode(".jpg", depth_frame, self.encode_param)
 
-                # Pickle the frame, and send it over socket
+                # Compress/Pickle the frame, and send it over socket
                 a = gzip.compress(pickle.dumps(depth_frame))
-                print(len(a))
-                print(sys.getsizeof(a))
+                # Pack message, specify this is "d"epth data
                 message = struct.pack("Q", len(a)) + "d".encode() + a
                 self.client_socket.sendall(message)
 
