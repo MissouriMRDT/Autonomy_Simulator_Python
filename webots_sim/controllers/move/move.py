@@ -15,8 +15,8 @@ keyboard = Keyboard()
 keyboard.enable(64)
 
 # Initialize the rover class, with our rovecomm node
-rover = Rover(rovecomm_node)
-rovecomm_node.set_callback(1000, rover.drive_callback())
+rover = Rover(robot, rovecomm_node)
+rovecomm_node.set_callback(1000, rover.drive_callback)
 
 # Get simulation step length.
 timeStep = int(robot.getBasicTimeStep())

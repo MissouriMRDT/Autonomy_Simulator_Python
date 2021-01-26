@@ -6,6 +6,8 @@ import numpy as np
 import pickle
 import struct
 import cv2
+import gzip
+import sys
 
 # Quick lambda to return current time in ms
 current_milli_time = lambda: int(round(time.time() * 1000))
@@ -14,7 +16,7 @@ current_milli_time = lambda: int(round(time.time() * 1000))
 class Rover:
     def __init__(self, robot, rovecomm_node):
         self.robot = robot
-    	self.rovecomm_node = rovecomm_node
+        self.rovecomm_node = rovecomm_node
 
         # The update rate for telemetry/commands
         self.UPDATE_RATE = 100
@@ -159,7 +161,7 @@ class Rover:
         if current_milli_time() - self.camera_update_timer > (1000 / self.FPS):
             # stream the camera feed directly to autonomy
             if self.client_socket == None:
-                client_socket, addr = self.server_socket.accept()
+                self.client_socket, addr = self.server_socket.accept()
                 print("GOT CONNECTION FROM:", addr)
             if self.client_socket:
                 # Grab the frame from the camera and convert to numpy array
@@ -171,7 +173,21 @@ class Rover:
 
                 # Pickle the frame, and send it over socket
                 a = pickle.dumps(frame)
-                message = struct.pack("Q", len(a)) + a
+                message = struct.pack("Q", len(a)) + "r".encode() + a
+                self.client_socket.sendall(message)
+
+                # Do the same for the depth frame
+                depth_frame = self.depth.getRangeImage()
+
+                # Depth frame has dimensions half of that of the regular frame
+                depth_frame = struct.pack("%sf" % len(depth_frame), *depth_frame)
+                # result, depth_frame = cv2.imencode(".jpg", depth_frame, self.encode_param)
+
+                # Pickle the frame, and send it over socket
+                a = gzip.compress(pickle.dumps(depth_frame))
+                print(len(a))
+                print(sys.getsizeof(a))
+                message = struct.pack("Q", len(a)) + "d".encode() + a
                 self.client_socket.sendall(message)
 
             self.camera_update_timer = current_milli_time()
