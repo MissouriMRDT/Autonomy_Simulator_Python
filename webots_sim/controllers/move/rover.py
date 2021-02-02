@@ -7,7 +7,7 @@ import pickle
 import struct
 import cv2
 import gzip
-import sys
+import select
 
 # Quick lambda to return current time in ms
 current_milli_time = lambda: int(round(time.time() * 1000))
@@ -160,9 +160,11 @@ class Rover:
     def stream_frame(self):
         if current_milli_time() - self.camera_update_timer > (1000 / self.FPS):
             # stream the camera feed directly to autonomy
-            if self.client_socket == None:
+            if len(select.select([self.server_socket], [], [], 0)[0]) > 0:
                 self.client_socket, addr = self.server_socket.accept()
                 print("GOT CONNECTION FROM:", addr)
+
+            # If we had a socket connection, at least attempt to stream frames
             if self.client_socket:
                 # Grab the frame from the camera and convert to numpy array
                 frame = self.camera.getImage()
@@ -175,7 +177,13 @@ class Rover:
                 a = pickle.dumps(frame)
                 # Pack message, specify this is "r"egular image
                 message = struct.pack("Q", len(a)) + "r".encode() + a
-                self.client_socket.sendall(message)
+
+                # Check if there is an available socket to send on
+                try:
+                    self.client_socket.sendall(message)
+                except socket.error:
+                    self.client_socket = None
+                    return
 
                 # Do the same for the depth frame
                 depth_frame = self.depth.getRangeImage()
@@ -187,6 +195,12 @@ class Rover:
                 a = gzip.compress(pickle.dumps(depth_frame))
                 # Pack message, specify this is "d"epth data
                 message = struct.pack("Q", len(a)) + "d".encode() + a
-                self.client_socket.sendall(message)
+
+                # Check if there is an available socket to send on
+                try:
+                    self.client_socket.sendall(message)
+                except socket.error:
+                    self.client_socket = None
+                    return
 
             self.camera_update_timer = current_milli_time()
