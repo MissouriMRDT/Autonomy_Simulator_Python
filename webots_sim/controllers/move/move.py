@@ -21,9 +21,9 @@ rovecomm_node.set_callback(1000, rover.drive_callback)
 # Get simulation step length.
 timeStep = int(robot.getBasicTimeStep())
 
-while robot.step(timeStep) != -1:
 
-    # Check if we need to trigger watchdog and stop driving
+while robot.step(timeStep) != -1:
+    ## Check if we need to trigger watchdog and stop driving
     rover.drive_watchdog_check()
 
     # send the sensor data to the autonomy program
@@ -35,3 +35,4 @@ while robot.step(timeStep) != -1:
     # print(depth.getRangeImageArray())
 
 rover.close()
+

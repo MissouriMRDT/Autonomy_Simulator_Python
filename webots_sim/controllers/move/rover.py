@@ -22,26 +22,22 @@ class Rover:
         self.UPDATE_RATE = 100
 
         # The max motor speed in radians
-        self.MAX_SPEED = 0.6
+        self.MAX_SPEED = 4
 
         # Define the camera FPS
         self.FPS = 30
 
         # Get left and right wheel motors.
         # The motor sides are currently actually flipped.
-        self.rightMotor = self.robot.getDevice("FrontLeftWheel")
-        self.rightMiddleMotor = self.robot.getDevice("MiddleLeftWheel")
-        self.rightBackMotor = self.robot.getDevice("BackLeftWheel")
-        self.leftFrontMotor = self.robot.getDevice("FrontRightWheel")
-        self.leftMiddleMotor = self.robot.getDevice("MiddleRightWheel")
-        self.leftBackMotor = self.robot.getDevice("BackRightWheel")
+        self.rightMotor = self.robot.getDevice("wheel2")
+        self.rightBackMotor = self.robot.getDevice("wheel4")
+        self.leftFrontMotor = self.robot.getDevice("wheel1")
+        self.leftBackMotor = self.robot.getDevice("wheel3")
 
         # Disable motor PID control mode.
         self.leftFrontMotor.setPosition(float("inf"))
-        self.leftMiddleMotor.setPosition(float("inf"))
         self.leftBackMotor.setPosition(float("inf"))
         self.rightMotor.setPosition(float("inf"))
-        self.rightMiddleMotor.setPosition(float("inf"))
         self.rightBackMotor.setPosition(float("inf"))
 
         # Grab all the devices on the rover and enable them
@@ -97,11 +93,9 @@ class Rover:
     def drive_callback(self, packet):
         left, right = packet.data
         self.leftFrontMotor.setVelocity((left / 250) * self.MAX_SPEED)
-        self.leftMiddleMotor.setVelocity((left / 250) * self.MAX_SPEED)
         self.leftBackMotor.setVelocity((left / 250) * self.MAX_SPEED)
 
         self.rightMotor.setVelocity((right / 250) * self.MAX_SPEED)
-        self.rightMiddleMotor.setVelocity((right / 250) * self.MAX_SPEED)
         self.rightBackMotor.setVelocity((right / 250) * self.MAX_SPEED)
 
         self.watchdog_timer = current_milli_time()
@@ -110,11 +104,9 @@ class Rover:
         # Very rudimentary watchdog
         if current_milli_time() - self.watchdog_timer > self.UPDATE_RATE * 1.5:
             self.leftFrontMotor.setVelocity(0)
-            self.leftMiddleMotor.setVelocity(0)
             self.leftBackMotor.setVelocity(0)
 
             self.rightMotor.setVelocity(0)
-            self.rightMiddleMotor.setVelocity(0)
             self.rightBackMotor.setVelocity(0)
             self.watchdog_timer = current_milli_time()
 
@@ -124,12 +116,12 @@ class Rover:
             roll, pitch, yaw = self.imu.getRollPitchYaw()
 
             # Some lambdas to handle sensor data conversion
-            conv_gps_to_int = lambda x: 0 if math.isnan(x) else int(x * 1e7)
-            conv_imu_to_int = lambda x: 0 if math.isnan(x) else int(x)
+            # conv_gps_to_int = lambda x: 0 if math.isnan(x) else int(x * 1e7)
+            # conv_imu_to_int = lambda x: 0 if math.isnan(x) else int(x)
 
             # Convert lat, lon to ints, some NaN trickiness
-            lat = conv_gps_to_int(lat)
-            lon = conv_gps_to_int(lon)
+            # lat = conv_gps_to_int(lat)
+            # lon = conv_gps_to_int(lon)
 
             # Convert pitch, yaw, roll to degrees (is in radians)
             yaw = -yaw
@@ -142,23 +134,23 @@ class Rover:
                 yaw = 360 + yaw
 
             # Convert pitch, yaw, roll to ints
-            roll = conv_imu_to_int(roll)
-            pitch = conv_imu_to_int(pitch)
-            yaw = conv_imu_to_int(yaw)
+            # roll = conv_imu_to_int(roll)
+            # pitch = conv_imu_to_int(pitch)
+            # yaw = conv_imu_to_int(yaw)
 
             # Send GPS to Autonomy (and other subscribers)
-            packet = RoveCommPacket(int(5100), "l", (lat, lon), "127.0.0.1", 11000)
+            packet = RoveCommPacket(int(5100), "d", (lat, lon), "127.0.0.1", 11000)
             self.rovecomm_node.write(packet, False)
 
             # Send the rover ortientation to Autonomy (and other subscribers)
-            packet = RoveCommPacket(int(5101), "h", (pitch, yaw, roll), "127.0.0.1", 11000)
+            packet = RoveCommPacket(int(5101), "f", (pitch, yaw, roll), "127.0.0.1", 11000)
             self.rovecomm_node.write(packet, False)
 
             # Update the timer
             self.sensor_update_timer = current_milli_time()
 
     def stream_frame(self):
-        if current_milli_time() - self.camera_update_timer > (1000 / self.FPS):
+        if current_milli_time() - self.camera_update_timer > (1000 / 15):
             # stream the camera feed directly to autonomy
             if len(select.select([self.server_socket], [], [], 0)[0]) > 0:
                 self.client_socket, addr = self.server_socket.accept()
@@ -187,7 +179,7 @@ class Rover:
 
                 # Do the same for the depth frame
                 depth_frame = self.depth.getRangeImage()
-
+                # print(depth_frame)
                 # Depth is a float, so convert those to bytes
                 depth_frame = struct.pack("%sf" % len(depth_frame), *depth_frame)
 
