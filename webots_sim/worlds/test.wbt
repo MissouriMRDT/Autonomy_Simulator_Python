@@ -1,0 +1,366 @@
+#VRML_SIM R2021a utf8
+WorldInfo {
+  info [
+    "Benchmark objective: "
+    "learn how to program a robot."
+  ]
+  title "Robot Programming"
+  window "robot_programming"
+  basicTimeStep 20
+  FPS 30
+  optimalThreadCount 4
+  coordinateSystem "NUE"
+  gpsCoordinateSystem "WGS84"
+  gpsReference 37.9514 -91.769 0
+  contactProperties [
+    ContactProperties {
+      material2 "thymio body"
+      coulombFriction [
+        0.7
+      ]
+    }
+  ]
+}
+Viewpoint {
+  orientation 0.09088498247671667 -0.9906198801513317 -0.10204005590535511 4.524044374088049
+  position 11.676712440242953 5.024247415532802 -9.455127720112444
+  followType "None"
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+Transform {
+  translation 0 0 0.25
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.8 0.8
+        baseColorMap ImageTexture {
+          url [
+            "textures/target.png"
+          ]
+        }
+        roughness 0.5
+        metalness 0
+      }
+      geometry IndexedFaceSet {
+        coord Coordinate {
+          point [
+            0.125 0.0001 0.125
+            0.125 0.0001 -0.125
+            -0.125 0.0001 -0.125
+            -0.125 0.0001 0.125
+          ]
+        }
+        coordIndex [
+          0, 1, 2, 3
+        ]
+      }
+    }
+  ]
+}
+UnevenTerrain {
+  randomSeed 5
+}
+Robot {
+  translation 4.315143265561118 1.7445158132441234 -7.72662825297569
+  rotation -0.08712266656884536 -0.9949538059081457 -0.04976509900351456 0.8072072592330366
+  scale 5 5 5
+  children [
+    Pen {
+      translation 0 -0.016 0
+    }
+    Compass {
+      rotation 0 -1 0 1.5708
+    }
+    GPS {
+      rotation 0 -1 0 1.5708
+    }
+    RangeFinder {
+      translation 0 0.05 0.075
+      rotation 0 1 0 3.14159
+      fieldOfView 1.48
+      width 640
+      height 360
+      maxRange 10
+    }
+    InertialUnit {
+      rotation 0 -1 0 1.5708
+    }
+    Camera {
+      translation 0 0.05 0.075
+      rotation 0 1 0 3.14159
+      fieldOfView 1.48
+      width 1280
+      height 720
+    }
+    Solid {
+      translation 0.07 0.0300007 0.03
+      rotation 0.5773502691890485 -0.5773492691885823 -0.5773512691895147 -2.094395307179586
+      scale 0.003 0.003 0.003
+      children [
+        DEF BODY Shape {
+          appearance PBRAppearance {
+            baseColor 0.917647 0.145098 0.145098
+            roughness 1
+            metalness 0
+          }
+          geometry Mesh {
+            url [
+              "C:/Users/elive/RoverSoftware/Autonomy_Simulator/webots_sim/Frame.stl"
+            ]
+          }
+        }
+      ]
+      name "solid(4)"
+    }
+    DEF WHEEL1 HingeJoint {
+      jointParameters HingeJointParameters {
+        position 1450.773555149386
+        anchor 0.06 0 0.05
+      }
+      device [
+        RotationalMotor {
+          name "wheel1"
+        }
+      ]
+      endPoint Solid {
+        translation 0.06054761704010703 0.0005335331312891078 0.04997200162634862
+        rotation 0.44668165340143634 -0.4490340902448947 -0.7738500412305338 4.472149959766432
+        scale 0.5 0.5 0.5
+        children [
+          DEF WHEEL Shape {
+            appearance PBRAppearance {
+              roughness 1
+              metalness 0
+            }
+            geometry Cylinder {
+              height 0.02
+              radius 0.04
+              subdivision 24
+            }
+          }
+        ]
+        boundingObject USE WHEEL
+        physics Physics {
+        }
+        linearVelocity 8.946191368057051e-05 -9.20483881159536e-06 -8.205140305562191e-05
+        angularVelocity -1.6215109865765035e-05 -5.2976832253931145e-06 -1.480996373405337e-05
+      }
+    }
+    DEF WHEEL2 HingeJoint {
+      jointParameters HingeJointParameters {
+        position 917.9183494782006
+        anchor -0.06 0 0.05
+      }
+      device [
+        RotationalMotor {
+          name "wheel2"
+        }
+      ]
+      endPoint Solid {
+        translation -0.05947725206290657 0.00022312194099242502 0.05019621880471814
+        rotation -0.26421729715700626 0.2642395630204254 -0.9275595254310209 4.643072968430365
+        scale 0.5 0.5 0.5
+        children [
+          USE WHEEL
+        ]
+        name "solid(1)"
+        boundingObject USE WHEEL
+        physics Physics {
+        }
+        linearVelocity 9.181132880968362e-05 -1.0004858283417009e-05 -8.433241083380229e-05
+        angularVelocity -1.9306659194011806e-05 -5.256666854728525e-06 -1.8018191400684872e-05
+      }
+    }
+    DEF WHEEL3 HingeJoint {
+      jointParameters HingeJointParameters {
+        position 1450.8093739826859
+        anchor 0.06 0 -0.05
+      }
+      device [
+        RotationalMotor {
+          name "wheel3"
+        }
+      ]
+      endPoint Solid {
+        translation 0.05952885366601636 9.795460483834432e-05 -0.050208716197843284
+        rotation -0.39313267152360043 0.3960367284526246 0.8298202289033808 1.7491872744914205
+        scale 0.5 0.5 0.5
+        children [
+          USE WHEEL
+        ]
+        name "solid(2)"
+        boundingObject USE WHEEL
+        physics Physics {
+        }
+        linearVelocity 9.142128201293256e-05 -8.763211438078392e-06 -8.004123791384767e-05
+        angularVelocity -1.4464123095310784e-05 -5.320889349200534e-06 -1.2992900457988613e-05
+      }
+    }
+    DEF WHEEL4 HingeJoint {
+      jointParameters HingeJointParameters {
+        position 917.9709350979251
+        anchor -0.06 0 -0.05
+      }
+      device [
+        RotationalMotor {
+          name "wheel4"
+        }
+      ]
+      endPoint Solid {
+        translation -0.06074266137421675 0.0004741910977929855 -0.05020850821045251
+        rotation -0.2866828988048753 0.28675090947312304 -0.9141043876107204 4.628950607391067
+        scale 0.5 0.5 0.5
+        children [
+          USE WHEEL
+        ]
+        name "solid(3)"
+        boundingObject USE WHEEL
+        physics Physics {
+        }
+        linearVelocity 9.382270109951203e-05 -9.616955904382372e-06 -8.236858015595413e-05
+        angularVelocity -1.4914065922757157e-05 -5.314917370259822e-06 -1.3459785676667362e-05
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.1 0.011982918352612417 0.1
+  }
+  physics Physics {
+    density -1
+    mass 1
+  }
+  controller "move"
+  linearVelocity 9.160285376992903e-05 -9.389552561478923e-06 -8.217311215445968e-05
+  angularVelocity -3.7609473198038165e-07 -5.507877987926806e-06 1.6268816308597078e-06
+}
+Oak {
+  translation -7.52 1.9 0.52
+}
+Oak {
+  translation -7.66 1.9 -10.6
+  name "oak tree(1)"
+}
+OilBarrel {
+  translation -1.11 2.19 -3.53
+  height 0.4
+  radius 0.15
+}
+DEF AR_Tag Solid {
+  translation -8.14806 2.73 -0.717704
+  rotation 0.9831056944488314 -0.1294279597735375 -0.1294279597735375 -1.5878353071795859
+  scale 20 20 20
+  children [
+    Solid {
+      scale 0.005 0.005 0.005
+      children [
+        DEF SHAPE Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "C:/Users/elive/Downloads/gazebo_models-master/ar_tags/model/marker0/materials/textures/Marker0.png"
+              ]
+            }
+            roughness 1
+            metalness 0
+            name "Marker0Mat"
+          }
+          geometry IndexedFaceSet {
+            coord Coordinate {
+              point [
+                1 1 -9.41753e-06
+                1 -1 -9.41753e-06
+                -1 -1 -9.41753e-06
+                -1 1 1.99999
+                -1 -1 1.99999
+                0.999999 -1 1.99999
+                1 0.999999 1.99999
+                0.999999 -1 1.99999
+                1 -1 -9.41753e-06
+                0.999999 -1 1.99999
+                -1 -1 1.99999
+                -1 -1 -9.41753e-06
+                -1 -1 -9.41753e-06
+                -1 -1 1.99999
+                -1 1 1.99999
+                1 1 -9.41753e-06
+                -1 1 -9.41753e-06
+                -1 1 1.99999
+                -1 1 -9.41753e-06
+                1 0.999999 1.99999
+                1 1 -9.41753e-06
+                1 -1 -9.41753e-06
+                -1 1 -9.41753e-06
+                1 0.999999 1.99999
+              ]
+            }
+            normal Normal {
+              vector [
+                0 0 -1
+                0 0 -1
+                0 0 -1
+                0 0 1
+                0 0 1
+                0 0 1
+                1 -5.66244e-07 3.27825e-07
+                1 -5.66244e-07 3.27825e-07
+                1 -5.66244e-07 3.27825e-07
+                -4.76837e-07 -1 0
+                -4.76837e-07 -1 0
+                -4.76837e-07 -1 0
+                -1 2.38419e-07 -1.19209e-07
+                -1 2.38419e-07 -1.19209e-07
+                -1 2.38419e-07 -1.19209e-07
+                2.38419e-07 1 1.78814e-07
+                2.38419e-07 1 1.78814e-07
+                2.38419e-07 1 1.78814e-07
+                0 0 -1
+                0 0 1
+                1 0 -2.38419e-07
+                0 -1 -2.98023e-07
+                -1 2.38419e-07 0
+                2.98023e-07 1 2.38418e-07
+              ]
+            }
+            texCoord TextureCoordinate {
+              point [
+                0 0
+                0 0
+                0 0
+                0 0
+                0 0
+                0 0
+                0.9999 0.994019
+                9.96856e-05 0.994019
+                0.000100079 9.97642e-05
+                0 0
+                0 0
+                0 0
+                9.96856e-05 0.994019
+                9.98823e-05 9.96856e-05
+                0.9999 9.98429e-05
+                0 0
+                0 0
+                0 0
+                0 0
+                0 0
+                0.9999 9.96856e-05
+                0 0
+                0.9999 0.994019
+                0 0
+              ]
+            }
+            coordIndex [
+              0, 1, 2, -1, 3, 4, 5, -1, 6, 7, 8, -1, 9, 10, 11, -1, 12, 13, 14, -1, 15, 16, 17, -1, 18, 0, 2, -1, 19, 3, 5, -1, 20, 6, 8, -1, 21, 9, 11, -1, 22, 12, 14, -1, 23, 15, 17, -1
+            ]
+          }
+        }
+      ]
+      name "Marker0"
+      boundingObject USE SHAPE
+    }
+  ]
+  description "AR Tag"
+}
