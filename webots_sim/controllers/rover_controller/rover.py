@@ -133,17 +133,12 @@ class Rover:
             if yaw < 0:
                 yaw = 360 + yaw
 
-            # Convert pitch, yaw, roll to ints
-            # roll = conv_imu_to_int(roll)
-            # pitch = conv_imu_to_int(pitch)
-            # yaw = conv_imu_to_int(yaw)
-
             # Send GPS to Autonomy (and other subscribers)
-            packet = RoveCommPacket(int(5100), "d", (lat, lon), "127.0.0.1", 11000)
+            packet = RoveCommPacket(int(5100), "d", (lat, lon), "192.168.1.139", 11000)
             self.rovecomm_node.write(packet, False)
 
             # Send the rover ortientation to Autonomy (and other subscribers)
-            packet = RoveCommPacket(int(5101), "f", (pitch, yaw, roll), "127.0.0.1", 11000)
+            packet = RoveCommPacket(int(5101), "f", (pitch, yaw, roll), "192.168.1.139", 11000)
             self.rovecomm_node.write(packet, False)
 
             # Update the timer
@@ -179,7 +174,8 @@ class Rover:
 
                 # Do the same for the depth frame
                 depth_frame = self.depth.getRangeImage()
-                # print(depth_frame)
+                depth_frame = [x * 1000 for x in depth_frame]
+
                 # Depth is a float, so convert those to bytes
                 depth_frame = struct.pack("%sf" % len(depth_frame), *depth_frame)
 

@@ -7,7 +7,7 @@ import socket, cv2, pickle, struct
 import numpy as np
 from rover import Rover
 
-rovecomm_node = RoveComm(11001, ("", 11112))
+rovecomm_node = RoveComm(11000, ("", 11112))
 
 # Get pointer to the robot.
 robot = Robot()
@@ -35,4 +35,3 @@ while robot.step(timeStep) != -1:
     # print(depth.getRangeImageArray())
 
 rover.close()
-
