@@ -134,11 +134,11 @@ class Rover:
                 yaw = 360 + yaw
 
             # Send GPS to Autonomy (and other subscribers)
-            packet = RoveCommPacket(int(5100), "d", (lat, lon), "192.168.1.139", 11000)
+            packet = RoveCommPacket(int(5100), "d", (lat, lon), "127.0.0.1", 11000)
             self.rovecomm_node.write(packet, False)
 
             # Send the rover ortientation to Autonomy (and other subscribers)
-            packet = RoveCommPacket(int(5101), "f", (pitch, yaw, roll), "192.168.1.139", 11000)
+            packet = RoveCommPacket(int(5101), "f", (pitch, yaw, roll), "127.0.0.1", 11000)
             self.rovecomm_node.write(packet, False)
 
             # Update the timer
