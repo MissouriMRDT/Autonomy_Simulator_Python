@@ -21,6 +21,9 @@ class Rover:
         # The update rate for telemetry/commands
         self.UPDATE_RATE = 100
 
+        # Define the timestep for polling sensors in virtual world.
+        self.timestep = 64
+
         # The max motor speed in radians
         self.MAX_SPEED = 4
 
@@ -42,22 +45,26 @@ class Rover:
 
         # Grab all the devices on the rover and enable them
         self.gps = self.robot.getDevice("gps")
-        self.gps.enable(64)
+        self.gps.enable(self.timestep)
 
         self.camera = self.robot.getDevice("camera")
-        self.camera.enable(64)
+        self.camera.enable(self.timestep)
 
         self.imu = self.robot.getDevice("inertial unit")
-        self.imu.enable(64)
+        self.imu.enable(self.timestep)
 
         self.compass = self.robot.getDevice("compass")
-        self.compass.enable(64)
+        self.compass.enable(self.timestep)
 
         self.pen = self.robot.getDevice("pen")
         self.pen.write(True)
 
         self.depth = self.robot.getDevice("range-finder")
-        self.depth.enable(64)
+        self.depth.enable(self.timestep)
+
+        self.lidar = self.robot.getDevice("lidar")
+        self.lidar.enable(self.timestep)
+        self.lidar.enablePointCloud()
 
         # Set up some timers to use for watchdogs/telemetry rates
         self.sensor_update_timer = current_milli_time()
@@ -183,6 +190,50 @@ class Rover:
                 a = gzip.compress(pickle.dumps(depth_frame))
                 # Pack message, specify this is "d"epth data
                 message = struct.pack("Q", len(a)) + "d".encode() + a
+                
+                 # Check if there is an available socket to send on
+                try:
+                    self.client_socket.sendall(message)
+                except socket.error:
+                    self.client_socket = None
+                    return
+                
+                # Do the same for the point cloud.
+                point_cloud = self.lidar.getPointCloud(data_type="buffer") # buffer bytearray is faster than list.
+                # Read the buffer byte data into a numpy array for fast processing.
+                point_cloud = np.frombuffer(point_cloud, dtype=np.float32)
+                # Reshape the array to create a point cloud image frame with the size of 1280x720 (same as configured in lidar properties.)
+                point_cloud = point_cloud.reshape((404, 720, 5))
+                # Cutoff last value. The values are now x,y,z,pointlayer. The pointlayer is useless, but we need a forth value to emulate what the zed cam returns.
+                point_cloud = point_cloud[:,:,:4]
+                # Create new copy since point_cloud is read-only.
+                pcd = point_cloud.copy()
+                # Remove infinity.
+                pcd[np.isinf(pcd)] = 0
+                pcd[np.isneginf(pcd)] = 0
+                # Convert meters to millimeters.
+                pcd *= 1000
+                # Scale oll ofthe values between 0-255 since we will be encoding to an image for speed. This reduces accuracy to +-40cm.
+                minmax = np.array([pcd.min(), pcd.max()])
+                print(pcd.min(), pcd.max())
+                print(pcd[240, 240, :-1])
+                pcd = np.interp(pcd, (pcd.min(), pcd.max()), (0, 255))
+                # Convert array to int.
+                pcd = pcd.astype(int)
+                
+                # Encode the frame before we transmit it, reduces size and speeds up process
+                result, point_cloud_frame = cv2.imencode(".png", pcd, [int(cv2.IMWRITE_PNG_COMPRESSION), 3])
+                # Pickle the frame, and send it over socket
+                a = pickle.dumps(point_cloud_frame)
+                # Pack message, specify this is "r"egular image
+                message = struct.pack("Q", len(a)) + "p".encode() + a
+                
+                # point_cloud 1D array is a float, so convert those to bytes
+                # point_cloud = struct.pack("%sf" % len(point_cloud), *point_cloud)
+                # Compress/Pickle the cloud, and send it over socket
+                # a = gzip.compress(pickle.dumps(point_cloud))
+                # Pack message, specify this is "p"oint cloud data
+                # message = struct.pack("Q", len(a)) + "p".encode() + a
 
                 # Check if there is an available socket to send on
                 try:
@@ -190,5 +241,19 @@ class Rover:
                 except socket.error:
                     self.client_socket = None
                     return
+                    
+                
+                # minmax is a float, so convert those to bytes
+                minmax = minmax.tobytes()
+                # Attach the min and max values to the end of the message. This is used by the autonomy code to rescale things back to normal.
+                message = struct.pack("Q", len(minmax)) + "m".encode() + minmax
+                
+                # Check if there is an available socket to send on
+                try:
+                    self.client_socket.sendall(message)
+                except socket.error:
+                    self.client_socket = None
+                    return
+                
 
             self.camera_update_timer = current_milli_time()

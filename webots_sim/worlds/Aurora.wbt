@@ -1,4 +1,4 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Benchmark objective: "
@@ -22,8 +22,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.09547016572729346 -0.97524682205652 -0.19944694413467814 3.9892352120090226
-  position 26.173556529719487 6.873451661128445 8.428661544034927
+  orientation -0.9078605007093423 0.3954877207883193 -0.1392076648659934 1.8343939969988388
+  position -0.3671277228122154 7.892578831419128 3.3319167323573358
   followType "None"
 }
 TexturedBackground {
@@ -61,15 +61,52 @@ Transform {
   ]
 }
 UnevenTerrain {
-  randomSeed 5
+  rotation -0.5773502691896258 0.5773502691896258 0.5773502691896258 2.0943951023931957
+  randomSeed 7
+}
+SimpleTree {
+  translation 18 2 4
+  rotation -1 0 0 1.7016996938995748
+}
+Pine {
+  translation 7.05 2.85 -1.80478e-06
+  rotation 1 0 0 -1.5707953071795862
+}
+Pedestrian {
+  translation -7.23843 4.41 5.992
+  rotation -0.9351130202419243 0.25056300542381216 0.25056300542381216 1.63783
+}
+Forest {
+  translation 0 0.920023 -18.9279
+  rotation 1 0 0 -1.3089953071795861
+}
+Oak {
+  translation 0 2.95 7.9
+  rotation 1 0 0 -1.5707953071795862
 }
 Robot {
-  translation 18.799939456263687 2.448516192161288 15.417704124621345
-  rotation 0.038028007320415495 -0.999216668752546 0.01095077834234999 -0.9751346556168053
+  translation 3.4300072886582043 3.0382192609982575 1.2652659297294333
+  rotation 0.024350145450664322 0.9997025903412174 -0.0013421183223821908 0.9563766400243551
   scale 5 5 5
   children [
+    Lidar {
+      translation 0.01 0.05 0.075
+      rotation -0.5773489358556708 -0.5773509358554485 -0.5773509358554485 2.0944
+      scale 0.2 0.2 0.2
+      recognitionColors [
+        0 0 0
+      ]
+      horizontalResolution 720
+      fieldOfView 1.81514
+      verticalFieldOfView 1.25664
+      numberOfLayers 404
+      maxRange 40
+      defaultFrequency 20
+      maxFrequency 30
+    }
     Pen {
       translation 0 -0.016 0
+      rotation -1 0 0 1.5707963267948966
     }
     Compass {
       rotation 0 -1 0 1.5708
@@ -79,19 +116,20 @@ Robot {
     }
     RangeFinder {
       translation 0 0.05 0.075
-      rotation 0 1 0 3.14159
-      fieldOfView 1.48
+      rotation -0.5773509358537164 -0.5773519358536053 -0.5773479358540498 2.09439
+      scale 0.2 0.2 0.2
+      fieldOfView 1.81514
       width 640
       height 360
-      maxRange 10
+      maxRange 5
     }
     InertialUnit {
       rotation 0 -1 0 1.5708
     }
     Camera {
       translation 0 0.05 0.075
-      rotation 0 1 0 3.14159
-      fieldOfView 1.48
+      rotation -0.5773492478224381 -0.5773507798725421 -0.577350779872542 2.0943966344446547
+      fieldOfView 1.82
       width 1280
       height 720
     }
@@ -117,7 +155,7 @@ Robot {
     }
     DEF WHEEL1 HingeJoint {
       jointParameters HingeJointParameters {
-        position 1748.0380038633775
+        position 2304.8841788450754
         anchor 0.06 0 0.05
       }
       device [
@@ -126,8 +164,8 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation 0.06054761704010703 -0.000173890493375534 0.05050517680808199
-        rotation 0.40871510077304074 -0.39828387572873186 0.8211710666691705 1.7616205326251895
+        translation 0.060333417246392865 -0.0034938679872198192 0.049232870238578835
+        rotation 0.06695513102106213 0.9960598493195122 0.05815313408186032 1.5661942702279543
         scale 0.5 0.5 0.5
         children [
           DEF WHEEL Shape {
@@ -145,13 +183,13 @@ Robot {
         boundingObject USE WHEEL
         physics Physics {
         }
-        linearVelocity -1.2520039330176272e-05 -1.8610057063994059e-06 -5.373608272601621e-05
-        angularVelocity -8.716480830392193e-06 7.659987939246017e-07 1.3003760999068309e-05
+        linearVelocity 3.745169149731932e-05 -3.3939377461533644e-06 6.009910817622028e-05
+        angularVelocity 1.3531467429279288e-05 -1.269082771081417e-06 -2.1071219694220788e-05
       }
     }
     DEF WHEEL2 HingeJoint {
       jointParameters HingeJointParameters {
-        position 1209.6862924619647
+        position 1767.068011167917
         anchor -0.06 0 0.05
       }
       device [
@@ -160,8 +198,8 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation -0.05947725206290657 -0.0002819364238569673 0.0499062072882363
-        rotation -0.7079913398439859 0.7041047115535232 0.054633486746201936 3.034039171711426
+        translation -0.059530415611419314 -0.004535623951772391 0.049258751970798514
+        rotation 0.6082149523862809 0.5150409760013821 0.6039928515581104 2.19261997480937
         scale 0.5 0.5 0.5
         children [
           USE WHEEL
@@ -170,13 +208,13 @@ Robot {
         boundingObject USE WHEEL
         physics Physics {
         }
-        linearVelocity -1.234458576706674e-05 -1.961979644602353e-06 -5.361252533191479e-05
-        angularVelocity -3.594201251506091e-06 5.312352825051982e-07 5.462652814764964e-06
+        linearVelocity 3.658063251432938e-05 -2.7210695585629364e-06 5.949880852167673e-05
+        angularVelocity 1.4277115683104244e-05 -1.2571570981249757e-06 -2.2127324917429167e-05
       }
     }
     DEF WHEEL3 HingeJoint {
       jointParameters HingeJointParameters {
-        position 1748.1083222081772
+        position 2304.362350634197
         anchor 0.06 0 -0.05
       }
       device [
@@ -185,8 +223,8 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation 0.05952885366601636 0.00015090611950186733 -0.049825687352873974
-        rotation -0.46781604044653946 0.46146100722725497 -0.7537916762008777 4.4344593939273285
+        translation 0.05943170860825348 -0.0013081465749914946 -0.04984805204933958
+        rotation -0.13331280985560276 0.9813848309202413 -0.13824437915536866 1.5842755431541973
         scale 0.5 0.5 0.5
         children [
           USE WHEEL
@@ -195,13 +233,13 @@ Robot {
         boundingObject USE WHEEL
         physics Physics {
         }
-        linearVelocity -1.2638069669323169e-05 -1.812054680503772e-06 -5.3599154928067906e-05
-        angularVelocity -5.719000545766829e-06 6.286320245252106e-07 8.59074614857607e-06
+        linearVelocity 3.8184639830092004e-05 -3.3625428394868666e-06 5.9679901958516266e-05
+        angularVelocity 5.611901929697216e-06 -1.3956194804723697e-06 -9.854103900357433e-06
       }
     }
     DEF WHEEL4 HingeJoint {
       jointParameters HingeJointParameters {
-        position 1209.693228944089
+        position 1766.6829067496212
         anchor -0.06 0 -0.05
       }
       device [
@@ -210,8 +248,8 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation -0.06074266137421675 -0.0003379329697452165 -0.04960740073992504
-        rotation -0.7080095105346152 0.7038838849286162 0.05718399715246401 3.029315947563541
+        translation -0.06080011868525504 -0.0025343726845364883 -0.04951497294803082
+        rotation 0.6159179054968328 0.4906297048243105 -0.6163826947866108 4.061405512978391
         scale 0.5 0.5 0.5
         children [
           USE WHEEL
@@ -220,8 +258,8 @@ Robot {
         boundingObject USE WHEEL
         physics Physics {
         }
-        linearVelocity -1.2432207798385206e-05 -1.8495048217783954e-06 -5.345894735688051e-05
-        angularVelocity -7.799874951472298e-06 7.24015284625783e-07 1.1654296765752897e-05
+        linearVelocity 3.7427811394925525e-05 -2.7197432221417813e-06 5.916379670618243e-05
+        angularVelocity 3.0995849019690837e-06 -1.4357525070704489e-06 -6.295607198961303e-06
       }
     }
   ]
@@ -233,8 +271,8 @@ Robot {
     mass 1
   }
   controller "rover_controller"
-  linearVelocity -1.2491918396979003e-05 -1.8896410050729175e-06 -5.3606030670556855e-05
-  angularVelocity 1.7092095626056197e-07 3.586653318790449e-07 -8.065236287322783e-08
+  linearVelocity 3.766372195192439e-05 -3.098079657174822e-06 5.9770770429071693e-05
+  angularVelocity -7.486090580128561e-07 -1.4972179877710085e-06 -8.450955408978503e-07
 }
 DEF AR_Tag Solid {
   translation -19.123 2.85642 -20.5857
@@ -704,9 +742,9 @@ DEF AR_Tag Solid {
   description "AR Tag"
 }
 DEF AR_Tag Solid {
-  translation 19.8311 2.73 16.1134
-  rotation 0.9831056944488314 -0.1294279597735375 -0.1294279597735375 -1.5878353071795859
-  scale 20 20 20
+  translation 6.96345 3.05 3.32205
+  rotation -0.18615592140852352 0.694748706690358 0.6947447066920468 2.77348
+  scale 50 50 50
   children [
     Solid {
       scale 0.005 0.005 0.005
