@@ -181,6 +181,7 @@ class Rover:
 
                 # Do the same for the depth frame
                 depth_frame = self.depth.getRangeImage()
+                print(np.asarray(depth_frame).shape)
                 depth_frame = [x * 1000 for x in depth_frame]
 
                 # Depth is a float, so convert those to bytes
@@ -215,8 +216,6 @@ class Rover:
                 pcd *= 1000
                 # Scale oll ofthe values between 0-255 since we will be encoding to an image for speed. This reduces accuracy to +-40cm.
                 minmax = np.array([pcd.min(), pcd.max()])
-                print(pcd.min(), pcd.max())
-                print(pcd[240, 240, :-1])
                 pcd = np.interp(pcd, (pcd.min(), pcd.max()), (0, 255))
                 # Convert array to int.
                 pcd = pcd.astype(int)
@@ -227,13 +226,6 @@ class Rover:
                 a = pickle.dumps(point_cloud_frame)
                 # Pack message, specify this is "r"egular image
                 message = struct.pack("Q", len(a)) + "p".encode() + a
-                
-                # point_cloud 1D array is a float, so convert those to bytes
-                # point_cloud = struct.pack("%sf" % len(point_cloud), *point_cloud)
-                # Compress/Pickle the cloud, and send it over socket
-                # a = gzip.compress(pickle.dumps(point_cloud))
-                # Pack message, specify this is "p"oint cloud data
-                # message = struct.pack("Q", len(a)) + "p".encode() + a
 
                 # Check if there is an available socket to send on
                 try:
