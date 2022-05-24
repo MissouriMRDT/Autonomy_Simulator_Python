@@ -181,7 +181,6 @@ class Rover:
 
                 # Do the same for the depth frame
                 depth_frame = self.depth.getRangeImage()
-                print(np.asarray(depth_frame).shape)
                 depth_frame = [x * 1000 for x in depth_frame]
 
                 # Depth is a float, so convert those to bytes
@@ -192,7 +191,7 @@ class Rover:
                 # Pack message, specify this is "d"epth data
                 message = struct.pack("Q", len(a)) + "d".encode() + a
                 
-                 # Check if there is an available socket to send on
+                # Check if there is an available socket to send on
                 try:
                     self.client_socket.sendall(message)
                 except socket.error:
@@ -204,7 +203,7 @@ class Rover:
                 # Read the buffer byte data into a numpy array for fast processing.
                 point_cloud = np.frombuffer(point_cloud, dtype=np.float32)
                 # Reshape the array to create a point cloud image frame with the size of 1280x720 (same as configured in lidar properties.)
-                point_cloud = point_cloud.reshape((404, 720, 5))
+                point_cloud = point_cloud.reshape((self.lidar.getNumberOfLayers(), self.lidar.getHorizontalResolution(), 5))
                 # Cutoff last value. The values are now x,y,z,pointlayer. The pointlayer is useless, but we need a forth value to emulate what the zed cam returns.
                 point_cloud = point_cloud[:,:,:4]
                 # Create new copy since point_cloud is read-only.
@@ -215,16 +214,18 @@ class Rover:
                 # Convert meters to millimeters.
                 pcd *= 1000
                 # Scale oll ofthe values between 0-255 since we will be encoding to an image for speed. This reduces accuracy to +-40cm.
-                minmax = np.array([pcd.min(), pcd.max()])
+                minmax = np.array([pcd.min(), pcd.max()], dtype=np.float32)
                 pcd = np.interp(pcd, (pcd.min(), pcd.max()), (0, 255))
-                # Convert array to int.
-                pcd = pcd.astype(int)
+                # Round floats to int values.
+                pcd = np.rint(pcd)
+                # Convert array to int32.
+                pcd = pcd.astype(np.int32)
                 
                 # Encode the frame before we transmit it, reduces size and speeds up process
                 result, point_cloud_frame = cv2.imencode(".png", pcd, [int(cv2.IMWRITE_PNG_COMPRESSION), 3])
                 # Pickle the frame, and send it over socket
                 a = pickle.dumps(point_cloud_frame)
-                # Pack message, specify this is "r"egular image
+                # Pack message, specify this is "p"ointcloud image
                 message = struct.pack("Q", len(a)) + "p".encode() + a
 
                 # Check if there is an available socket to send on

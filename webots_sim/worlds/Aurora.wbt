@@ -8,7 +8,7 @@ WorldInfo {
   window "robot_programming"
   basicTimeStep 20
   FPS 30
-  optimalThreadCount 4
+  optimalThreadCount 8
   coordinateSystem "NUE"
   gpsCoordinateSystem "WGS84"
   gpsReference 37.9514 -91.769 0
@@ -22,9 +22,9 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.4678953471639925 0.023392321096372962 0.8834742460400367 4.648371606736315
-  position -12.649519126106345 61.29811796752396 -27.541068209187888
-  followType "None"
+  orientation -0.10503857242883703 0.2719515329810057 0.9565611648041086 4.557377763257753
+  position -2.7806081693615154 19.12092333439917 -17.950527531491215
+  follow "robot"
 }
 TexturedBackground {
 }
@@ -64,45 +64,170 @@ UnevenTerrain {
   rotation -0.5773502691896258 0.5773502691896258 0.5773502691896258 2.0943951023931957
   randomSeed 7
 }
+Pedestrian {
+  translation -19.748 4.47001 2.0368
+  rotation 0.935114083019432 -0.2505620222448973 -0.25056002224471974 -1.6378153071795865
+  name "pedestrian(23)"
+}
+Pedestrian {
+  translation -9.57862 4.47001 -4.34641
+  rotation 0.7745931892199711 0.44721210924632904 0.44722110924852754 -1.823475307179586
+  name "pedestrian(25)"
+}
+Pedestrian {
+  translation -6.44244 4.47001 -11.4902
+  rotation 0.9351111289565092 0.2505630345538976 0.250570034554863 -1.637825307179586
+  name "pedestrian(24)"
+}
+Pedestrian {
+  translation -2.52382 4.47001 -11.3058
+  rotation -0.8628559982587566 0.3574059992787547 0.35740799927875067 1.71776
+  name "pedestrian(26)"
+}
+Pedestrian {
+  translation -5.67986 4.47001 -7.84147
+  rotation 0.18615495605673163 0.6947408360012345 0.6947528359984017 -2.7734953071795863
+  name "pedestrian(27)"
+}
+Pine {
+  translation 3.67 1.81 -8.58
+  rotation 1 0 0 -1.5707953071795862
+  name "pine tree(15)"
+  enableBoundingObject FALSE
+}
+Pine {
+  translation 5.84 0.98 -6.64
+  rotation 1 0 0 -1.5707953071795862
+  name "pine tree(14)"
+  enableBoundingObject FALSE
+}
+Pine {
+  translation -5.62 1.03 3.25
+  rotation 1 0 0 -1.5707953071795862
+  name "pine tree(6)"
+  enableBoundingObject FALSE
+}
+Pine {
+  translation -4.15 0.1 -1.96
+  rotation 1 0 0 -1.5707953071795862
+  name "pine tree(5)"
+  enableBoundingObject FALSE
+}
+Pine {
+  translation 0.86 1.81 -6.2
+  rotation 1 0 0 -1.5707953071795862
+  name "pine tree(7)"
+  enableBoundingObject FALSE
+}
+Pine {
+  translation 9.28 0.34 -3.59
+  rotation 1 0 0 -1.5707953071795862
+  name "pine tree(13)"
+  enableBoundingObject FALSE
+}
+Pine {
+  translation 0.95 1.64 -0.370002
+  rotation 1 0 0 -1.5707953071795862
+  name "pine tree(3)"
+  enableBoundingObject FALSE
+}
+Pine {
+  translation 4.27 0.47 4.12
+  rotation 1 0 0 -1.5707953071795862
+  name "pine tree(1)"
+  enableBoundingObject FALSE
+}
 SimpleTree {
   translation 18 2 4
   rotation -1 0 0 1.7016996938995748
 }
 Pine {
-  translation 7.05 2.85 -1.80478e-06
+  translation 7.05 0.94 -0.370002
   rotation 1 0 0 -1.5707953071795862
+  enableBoundingObject FALSE
 }
 Pedestrian {
-  translation -7.83473 4.41 6.05916
-  rotation -0.9351130202419243 0.25056300542381216 0.25056300542381216 1.63783
+  translation -10.7944 4.47 10.0647
+  rotation 0.7745939356389926 0.4472119628411596 0.44721996284049487 -1.823475307179586
 }
-Forest {
-  translation 0 0.920023 -18.9279
-  rotation 1 0 0 -1.3089953071795861
+Pedestrian {
+  translation -10.2136 4.47 8.93572
+  rotation -0.18615605073823474 0.6947431893574928 0.6947501893594006 2.77348
+  name "pedestrian(1)"
+}
+Pedestrian {
+  translation -11.6236 4.47 11.6504
+  rotation -0.18615605073823474 0.6947431893574928 0.6947501893594006 2.77348
+  name "pedestrian(12)"
+}
+Pedestrian {
+  translation -9.7876 4.47001 7.62308
+  rotation -0.09269141374284896 0.7040591043869928 0.7040661043880306 2.95672
+  name "pedestrian(13)"
+}
+Pedestrian {
+  translation -23.5332 4.11001 15.5754
+  rotation -0.47690525599184136 0.6215143336146891 0.6215153336152258 2.25157
+  name "pedestrian(2)"
+}
+Pedestrian {
+  translation -7.9702 4.09 16.7076
+  rotation -0.7745928427967858 -0.4472109092387788 -0.44722290923634334 1.82348
+  name "pedestrian(30)"
+}
+Pedestrian {
+  translation -10.0258 4.26 16.5733
+  rotation -0.7745928427967858 -0.4472109092387788 -0.44722290923634334 1.82348
+  name "pedestrian(31)"
+}
+Pedestrian {
+  translation -6.2352 3.98 13.7031
+  rotation -0.2810830700872291 0.6785961692059402 0.6786011692071869 2.59355
+  name "pedestrian(29)"
+}
+Pedestrian {
+  translation -9.8706 4.47001 -7.81745
+  rotation -0.7745965212983359 0.4472127236219514 0.44721472362071535 1.82346
+  name "pedestrian(21)"
 }
 Oak {
   translation 0 2.95 7.9
   rotation 1 0 0 -1.5707953071795862
 }
+Oak {
+  translation 1.93 2.95 7.9
+  rotation 1 0 0 -1.5707953071795862
+  name "oak tree(1)"
+}
+Oak {
+  translation 0 2.95 5.99
+  rotation 1 0 0 -1.5707953071795862
+  name "oak tree(2)"
+}
+Oak {
+  translation 1.75 2.95 4.34
+  rotation 1 0 0 -1.5707953071795862
+  name "oak tree(3)"
+}
+Oak {
+  translation 1.75 2.95 1.1
+  rotation 1 0 0 -1.5707953071795862
+  name "oak tree(4)"
+}
 Robot {
-  translation -1.588350459888352 3.0915026092317337 3.221932207702196
-  rotation 0.004823336601920513 0.9999086611473044 -0.012625560844158558 1.7116098108536426
+  translation -2.5712430978558536 3.44968676933461 -15.76740161262509
+  rotation 0.10172952815605489 -0.9947190882712929 -0.01360288682135123 0.608948893120397
   scale 5 5 5
   children [
     Lidar {
-      translation 0.01 0.05 0.075
-      rotation -0.5773489358556708 -0.5773509358554485 -0.5773509358554485 2.0944
-      scale 0.2 0.2 0.2
-      recognitionColors [
-        0 0 0
-      ]
-      horizontalResolution 720
-      fieldOfView 1.81514
-      verticalFieldOfView 1.25664
+      translation 0.005 0.05 0.075
+      rotation 0.5773509358560258 0.577349935856137 0.577349935856137 -2.094395307179586
+      scale 0.2004 0.2004 0.2004
+      horizontalResolution 813
+      fieldOfView 1.82
+      verticalFieldOfView 0.9
       numberOfLayers 404
-      maxRange 40
-      defaultFrequency 20
-      maxFrequency 30
+      maxRange 10
     }
     Pen {
       translation 0 -0.016 0
@@ -115,19 +240,19 @@ Robot {
       rotation 0 -1 0 1.5708
     }
     RangeFinder {
-      translation 0 0.05 0.075
-      rotation -0.5773509358537164 -0.5773519358536053 -0.5773479358540498 2.09439
+      translation 0.005 0.05 0.075
+      rotation 0.5773509358537164 0.5773519358536053 0.5773479358540498 -2.0943853071795866
       scale 0.2 0.2 0.2
       fieldOfView 1.81514
-      width 1920
-      height 1080
+      width 813
+      height 404
       maxRange 40
     }
     InertialUnit {
       rotation 0 -1 0 1.5708
     }
     Camera {
-      translation 0 0.05 0.075
+      translation 0.005 0.05 0.075
       rotation -0.5773492478224381 -0.5773507798725421 -0.577350779872542 2.0943966344446547
       fieldOfView 1.82
       width 1920
@@ -149,13 +274,14 @@ Robot {
               "../protos/Frame.stl"
             ]
           }
+          castShadows FALSE
         }
       ]
       name "solid(4)"
     }
     DEF WHEEL1 HingeJoint {
       jointParameters HingeJointParameters {
-        position 2333.8175753386513
+        position 32886.65631110882
         anchor 0.06 0 0.05
       }
       device [
@@ -164,8 +290,8 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation 0.060333417246392865 0.002292363486127295 0.05274602826468481
-        rotation 0.6813975929596644 -0.27680776218868375 0.6775505760464443 3.69677367896188
+        translation 0.060316264870182046 0.0007327823114069151 0.046373583212842885
+        rotation -0.5929379446396745 -0.5554245956623107 -0.5830335430657801 4.155893334976542
         scale 0.5 0.5 0.5
         children [
           DEF WHEEL Shape {
@@ -183,13 +309,13 @@ Robot {
         boundingObject USE WHEEL
         physics Physics {
         }
-        linearVelocity 1.81882873611651e-05 -7.328715131810224e-07 -2.644954882682923e-05
-        angularVelocity 5.314678097479636e-06 -4.867944671402821e-06 3.4162394432244105e-05
+        linearVelocity -5.132848696057928e-05 -5.7218542497653194e-06 8.19365084598843e-05
+        angularVelocity 4.887289159243567e-05 -1.0912949466055816e-05 3.226432707475515e-05
       }
     }
     DEF WHEEL2 HingeJoint {
       jointParameters HingeJointParameters {
-        position 1796.0426434467774
+        position 33452.420058896074
         anchor -0.06 0 0.05
       }
       device [
@@ -198,8 +324,8 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation -0.059530415611419314 0.0029904702538988063 0.053489759437731044
-        rotation 0.32609872826275366 -0.8860861067052461 0.32941012572377576 4.59637454923466
+        translation -0.05955304379522097 -0.003856176664546286 0.052803407240771365
+        rotation 0.4271583437128341 0.7996086268292883 0.42209216208866984 1.7922531211384483
         scale 0.5 0.5 0.5
         children [
           USE WHEEL
@@ -208,13 +334,13 @@ Robot {
         boundingObject USE WHEEL
         physics Physics {
         }
-        linearVelocity 1.4863326924782682e-05 -6.63637046064371e-07 -2.5957644483270752e-05
-        angularVelocity 7.0487103561429544e-06 -4.7814339317482876e-06 4.639730543698879e-05
+        linearVelocity -4.859319983243003e-05 -5.590306632983572e-06 7.742448604782903e-05
+        angularVelocity -2.5523177719236137e-05 -8.562800607811172e-06 -1.9202951535698725e-05
       }
     }
     DEF WHEEL3 HingeJoint {
       jointParameters HingeJointParameters {
-        position 2333.1203384526843
+        position 33430.632118159374
         anchor 0.06 0 -0.05
       }
       device [
@@ -223,8 +349,8 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation 0.05943170860825348 0.0012287627750537454 -0.04952620924026094
-        rotation 0.7066618001247037 -0.07196151860456311 0.7038825470805752 3.293844492761313
+        translation 0.05941532090194057 -0.000896680774841195 -0.048778698434997575
+        rotation 0.4022827514933684 -0.8210161522041645 0.4050938973507168 4.523590933870132
         scale 0.5 0.5 0.5
         children [
           USE WHEEL
@@ -233,13 +359,13 @@ Robot {
         boundingObject USE WHEEL
         physics Physics {
         }
-        linearVelocity 1.8181227102925e-05 -5.394716012244695e-07 -2.9086987755139744e-05
-        angularVelocity 7.847482547043038e-07 -5.093934247557129e-06 2.2002186117035252e-06
+        linearVelocity -4.749886434202925e-05 -5.743439766009179e-06 8.428990290206009e-05
+        angularVelocity -1.2547787258446535e-06 -9.329424145562663e-06 -2.4140668735749824e-06
       }
     }
     DEF WHEEL4 HingeJoint {
       jointParameters HingeJointParameters {
-        position 1795.5030809658517
+        position 33395.41110549106
         anchor -0.06 0 -0.05
       }
       device [
@@ -248,8 +374,8 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation -0.06080011868525504 0.0024179016435432123 -0.049098863058454685
-        rotation -0.6323209272799387 0.4536491918917845 0.6279909677851819 3.990562292624909
+        translation -0.06082267876312075 -0.0014797942525413724 -0.0476589536941371
+        rotation -0.6960211482335744 -0.18158673154066135 0.6946803726462958 2.774428635277751
         scale 0.5 0.5 0.5
         children [
           USE WHEEL
@@ -258,8 +384,8 @@ Robot {
         boundingObject USE WHEEL
         physics Physics {
         }
-        linearVelocity 1.5043997232305252e-05 -7.814855438824472e-07 -2.862622820621952e-05
-        angularVelocity 1.7870105031451794e-06 -5.043923118067488e-06 9.271536327480382e-06
+        linearVelocity -4.432118154241528e-05 -4.968495962151393e-06 7.963530443482101e-05
+        angularVelocity -1.4564559824123028e-06 -9.323057879559956e-06 -2.5535375009476857e-06
       }
     }
   ]
@@ -271,12 +397,12 @@ Robot {
     mass 1
   }
   controller "rover_controller"
-  linearVelocity 1.686208458703922e-05 -1.0202340161777102e-06 -2.7624586704721513e-05
-  angularVelocity 2.7469738580139887e-07 -5.119383574034455e-06 -1.3985189577536572e-06
+  linearVelocity -4.7783405459318904e-05 -5.883348445313459e-06 8.065044432600375e-05
+  angularVelocity 2.3732371923929807e-06 -9.44403810198114e-06 9.586203048322485e-08
 }
 DEF AR_Tag Solid {
-  translation -19.123 2.85642 -20.5857
-  rotation 0.9267296043245393 0.2483168939788899 0.28197687960745915 -1.588935307179586
+  translation -17.8652 3.14612 -19.8141
+  rotation 0.6611566045355763 0.5073236965492413 0.552715669398472 -1.927755307179586
   scale 20 20 20
   children [
     Solid {
@@ -391,8 +517,8 @@ DEF AR_Tag Solid {
   description "AR Tag"
 }
 DEF AR_Tag Solid {
-  translation -19.123 2.85642 -20.5857
-  rotation 0.9267296043245393 0.2483168939788899 0.28197687960745915 -1.588935307179586
+  translation -19.4661 3.11069 -19.5907
+  rotation 0.6611569399557129 0.5073229539264533 0.5527159498039979 -1.927755307179586
   scale 20 20 20
   children [
     Solid {
@@ -508,124 +634,7 @@ DEF AR_Tag Solid {
   description "AR Tag"
 }
 DEF AR_Tag Solid {
-  translation -17.3728 3.23341 14.485
-  rotation -0.4677007639734658 0.6095186924046408 0.6401116769658033 2.19908
-  scale 20 20 20
-  children [
-    Solid {
-      scale 0.005 0.005 0.005
-      children [
-        DEF SHAPE Shape {
-          appearance PBRAppearance {
-            baseColorMap ImageTexture {
-              url [
-                "textures/Marker0.png"
-              ]
-            }
-            roughness 1
-            metalness 0
-            name "Marker0Mat"
-          }
-          geometry IndexedFaceSet {
-            coord Coordinate {
-              point [
-                1 1 -9.41753e-06
-                1 -1 -9.41753e-06
-                -1 -1 -9.41753e-06
-                -1 1 1.99999
-                -1 -1 1.99999
-                0.999999 -1 1.99999
-                1 0.999999 1.99999
-                0.999999 -1 1.99999
-                1 -1 -9.41753e-06
-                0.999999 -1 1.99999
-                -1 -1 1.99999
-                -1 -1 -9.41753e-06
-                -1 -1 -9.41753e-06
-                -1 -1 1.99999
-                -1 1 1.99999
-                1 1 -9.41753e-06
-                -1 1 -9.41753e-06
-                -1 1 1.99999
-                -1 1 -9.41753e-06
-                1 0.999999 1.99999
-                1 1 -9.41753e-06
-                1 -1 -9.41753e-06
-                -1 1 -9.41753e-06
-                1 0.999999 1.99999
-              ]
-            }
-            normal Normal {
-              vector [
-                0 0 -1
-                0 0 -1
-                0 0 -1
-                0 0 1
-                0 0 1
-                0 0 1
-                1 -5.66244e-07 3.27825e-07
-                1 -5.66244e-07 3.27825e-07
-                1 -5.66244e-07 3.27825e-07
-                -4.76837e-07 -1 0
-                -4.76837e-07 -1 0
-                -4.76837e-07 -1 0
-                -1 2.38419e-07 -1.19209e-07
-                -1 2.38419e-07 -1.19209e-07
-                -1 2.38419e-07 -1.19209e-07
-                2.38419e-07 1 1.78814e-07
-                2.38419e-07 1 1.78814e-07
-                2.38419e-07 1 1.78814e-07
-                0 0 -1
-                0 0 1
-                1 0 -2.38419e-07
-                0 -1 -2.98023e-07
-                -1 2.38419e-07 0
-                2.98023e-07 1 2.38418e-07
-              ]
-            }
-            texCoord TextureCoordinate {
-              point [
-                0 0
-                0 0
-                0 0
-                0 0
-                0 0
-                0 0
-                0.9999 0.994019
-                9.96856e-05 0.994019
-                0.000100079 9.97642e-05
-                0 0
-                0 0
-                0 0
-                9.96856e-05 0.994019
-                9.98823e-05 9.96856e-05
-                0.9999 9.98429e-05
-                0 0
-                0 0
-                0 0
-                0 0
-                0 0
-                0.9999 9.96856e-05
-                0 0
-                0.9999 0.994019
-                0 0
-              ]
-            }
-            coordIndex [
-              0, 1, 2, -1, 3, 4, 5, -1, 6, 7, 8, -1, 9, 10, 11, -1, 12, 13, 14, -1, 15, 16, 17, -1, 18, 0, 2, -1, 19, 3, 5, -1, 20, 6, 8, -1, 21, 9, 11, -1, 22, 12, 14, -1, 23, 15, 17, -1
-            ]
-          }
-        }
-      ]
-      name "Marker0"
-      boundingObject USE SHAPE
-    }
-  ]
-  name "solid(4)"
-  description "AR Tag"
-}
-DEF AR_Tag Solid {
-  translation -19.9239 3.23868 15.1163
+  translation -19.9156 3.72701 15.1483
   rotation -0.4677007639734658 0.6095186924046408 0.6401116769658033 2.19908
   scale 20 20 20
   children [
@@ -742,9 +751,9 @@ DEF AR_Tag Solid {
   description "AR Tag"
 }
 DEF AR_Tag Solid {
-  translation 1.29763 3.05 2.74734
-  rotation 1.544629522012626e-06 0.7071077811846875 0.7071057811853064 3.14158
-  scale 50 50 50
+  translation 3.0684 3.43 1.52143
+  rotation -0.18615592140852352 0.694748706690358 0.6947447066920468 2.77348
+  scale 20 20 20
   children [
     Solid {
       scale 0.005 0.005 0.005
@@ -974,4 +983,42 @@ DEF AR_Tag Solid {
   ]
   name "solid(2)"
   description "AR Tag"
+}
+Rock17cm {
+  translation -0.44 3.21 -9.07
+}
+Rock17cm {
+  translation -1.11 3.14 -9.41
+  rotation 6.633972319816142e-07 -0.8660253028380855 -0.5000001748437317 3.14159
+  name "rock 17 cm(3)"
+}
+Rock17cm {
+  translation 0.3 3.21 -9.07
+  rotation -0.9351132545462786 0.25056306820553154 0.25056206820525934 -3.0075153071795864
+  name "rock 17 cm(4)"
+}
+Rock17cm {
+  translation -0.44 3.21 -10.64
+  rotation 0 1 0 1.8326
+  name "rock 17 cm(5)"
+}
+Rock17cm {
+  translation 1.36 3.21 -9.07
+  rotation 0.2817460220352164 -0.886452069328976 -0.36718102871704583 -1.946975307179586
+  name "rock 17 cm(6)"
+}
+Rock17cm {
+  translation -0.47728 3.18883 -8.57773
+  rotation 0.2817460220352164 -0.886452069328976 -0.36718102871704583 -1.946975307179586
+  name "rock 17 cm(7)"
+}
+Rock17cm {
+  translation -0.44 3.21 -10.13
+  rotation 0 0 1 1.309
+  name "rock 17 cm(1)"
+}
+Rock17cm {
+  translation 0.057315 3.12306 -9.66384
+  rotation 0.7255771900217981 -0.5459391429762939 -0.4189131097093782 -1.6267153071795866
+  name "rock 17 cm(2)"
 }
