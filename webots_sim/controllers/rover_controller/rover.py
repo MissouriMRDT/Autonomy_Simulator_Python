@@ -127,6 +127,7 @@ class Rover:
     def send_sensor_update(self):
         if current_milli_time() - self.sensor_update_timer > self.UPDATE_RATE:
             lat, lon, alt = self.gps.getValues()
+            print(lat,lon,alt)
             roll, pitch, yaw = self.imu.getRollPitchYaw()
 
             # Some lambdas to handle sensor data conversion
@@ -143,6 +144,7 @@ class Rover:
             roll = math.degrees(roll)
             pitch = math.degrees(pitch)
             yaw = math.degrees(yaw)
+            print(yaw)
 
             if yaw < 0:
                 yaw = 360 + yaw
