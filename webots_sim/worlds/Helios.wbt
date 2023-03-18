@@ -6,6 +6,7 @@ EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/project
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/floors/protos/UnevenTerrain.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/buildings/protos/FastFoodRestaurant.proto"
 
 WorldInfo {
   info [
@@ -30,8 +31,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.8487666740374286 -0.27537507436454495 0.45140192895263836 4.746611995542542
-  position -44.22343384601772 36.454891357687956 -0.88891163834303
+  orientation 0.49388238839105175 0.6080032499867951 0.621620651557399 4.28335249477845
+  position -3.2399180944456556 8.65621123821425 -58.517537883217706
   follow "robot"
 }
 TexturedBackground {
@@ -320,8 +321,8 @@ Pedestrian {
   name "pedestrian(21)"
 }
 Robot {
-  translation -8.63468500440115 -4.556571194282011 0.618569295838042
-  rotation -0.10063286231875596 0.9924680224012679 -0.0698587971013727 2.2970597207808052
+  translation -15.175256691302549 -5.385732027700754 -36.702777216970865
+  rotation -0.021569993508129343 0.9856945449622507 -0.16715561435895757 -2.803243825205131
   scale 5 5 5
   children [
     Lidar {
@@ -386,7 +387,7 @@ Robot {
     }
     DEF WHEEL1 HingeJoint {
       jointParameters HingeJointParameters {
-        position 112222.02049681445
+        position 112222.71452912166
         anchor 0.06 0 0.05
       }
       device [
@@ -395,8 +396,8 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation 0.060316264870182046 -0.0029530800373901516 0.05222871867288198
-        rotation -0.3585516556747637 0.8602916049592264 -0.3624073187030908 1.7083482889529096
+        translation 0.060316264870182046 -0.0036955348511363497 0.04982424222884431
+        rotation -0.043793059053108874 0.9977066210634373 -0.051610718508366404 1.5636318087481431
         scale 0.5 0.5 0.5
         children [
           DEF WHEEL Shape {
@@ -414,13 +415,13 @@ Robot {
         boundingObject USE WHEEL
         physics Physics {
         }
-        linearVelocity -0.00021621817186468962 -7.26912695302365e-05 -0.00024603825102407253
-        angularVelocity 2.7656660783846603e-05 6.8415539020395324e-06 3.6980721366328794e-05
+        linearVelocity -0.0001896643734497143 -0.00020716553975809975 -0.0005076766252098909
+        angularVelocity -0.00012469177795875228 -1.1702273224314928e-06 4.690257661917622e-05
       }
     }
     DEF WHEEL2 HingeJoint {
       jointParameters HingeJointParameters {
-        position 115296.52813150341
+        position 115296.99727695505
         anchor -0.06 0 0.05
       }
       device [
@@ -429,8 +430,8 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation -0.05955304379522097 -0.0013104047379328841 0.05458388809294116
-        rotation 0.15646872286141503 0.9760202091489212 0.15133436522817223 1.5929308116945808
+        translation -0.05955304379522097 -0.003241308909484579 0.05349615605760098
+        rotation 0.35868634843157016 0.8639305104818296 0.3535083825136703 1.715635836713261
         scale 0.5 0.5 0.5
         children [
           USE WHEEL
@@ -439,13 +440,13 @@ Robot {
         boundingObject USE WHEEL
         physics Physics {
         }
-        linearVelocity -0.00021765141282483334 -7.102921013203798e-05 -0.0002453453607176065
-        angularVelocity 1.5748774834464688e-06 -1.960905341867411e-06 7.550088944526422e-06
+        linearVelocity -0.0001893611934165845 -0.00020719077323521633 -0.0005070150295620236
+        angularVelocity -5.2110001226359686e-05 -2.26130063963654e-06 2.1164033256324634e-05
       }
     }
     DEF WHEEL3 HingeJoint {
       jointParameters HingeJointParameters {
-        position 116337.7782332685
+        position 116338.48928330248
         anchor 0.06 0 -0.05
       }
       device [
@@ -454,8 +455,8 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation 0.05941532090194057 -0.001382520750675062 -0.049380120738692315
-        rotation -0.1908137909095643 0.9619878972353683 -0.19536986147150656 1.6038918113605682
+        translation 0.05941532090194057 -0.0014520558162822274 -0.050432605861087686
+        rotation 0.15878275715533846 0.9754527155904026 0.15257796589762831 1.5920196833780944
         scale 0.5 0.5 0.5
         children [
           USE WHEEL
@@ -464,13 +465,13 @@ Robot {
         boundingObject USE WHEEL
         physics Physics {
         }
-        linearVelocity -0.00021708300224233072 -7.155286604091481e-05 -0.00024801357313357846
-        angularVelocity 3.178367837917194e-06 -1.4197363516617172e-06 9.35938736201606e-06
+        linearVelocity -0.00019189756366280532 -0.00020787083750592285 -0.0005083219471294461
+        angularVelocity -0.00011917292439081653 -1.2533505557725496e-06 4.494551379911276e-05
       }
     }
     DEF WHEEL4 HingeJoint {
       jointParameters HingeJointParameters {
-        position 115017.70317805369
+        position 115018.35713757116
         anchor -0.06 0 -0.05
       }
       device [
@@ -479,8 +480,8 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation -0.06082267876312075 0.0025130451890014935 -0.0511639985885232
-        rotation 0.46283987612008165 -0.7592380324404681 -0.45753345142084895 1.8426133234709456
+        translation -0.06082267876312075 0.002702656657869723 -0.04939507370224132
+        rotation 0.6099050052300675 -0.5114174259437251 -0.6053660884426924 2.1983132464347386
         scale 0.5 0.5 0.5
         children [
           USE WHEEL
@@ -489,8 +490,8 @@ Robot {
         boundingObject USE WHEEL
         physics Physics {
         }
-        linearVelocity -0.0002192324873086816 -6.87218369049389e-05 -0.0002469821539115348
-        angularVelocity -3.4949577518505546e-05 -1.4287279592308302e-05 -3.366049202596908e-05
+        linearVelocity -0.00019192264061609906 -0.0002076074224527308 -0.0005083754510855249
+        angularVelocity -8.84543143362471e-05 -1.7151094027151903e-06 3.405220397111046e-05
       }
     }
   ]
@@ -502,8 +503,8 @@ Robot {
     mass 1
   }
   controller "rover_controller"
-  linearVelocity -0.00021727248239940082 -7.131256076627324e-05 -0.00024671092801838656
-  angularVelocity -5.100710634156604e-06 -4.213865384665524e-06 1.7336941256822603e-08
+  linearVelocity -0.0001909994225896266 -0.00020750023041866372 -0.0005085794599454611
+  angularVelocity 1.5891133283235583e-06 -3.068612731385166e-06 2.121508117800837e-06
 }
 DEF AR_Tag Solid {
   translation -30.5363 8.03107 43.2846
@@ -1725,4 +1726,8 @@ DEF Boulder Solid {
   ]
   name "solid(9)"
   model "Boulder"
+}
+FastFoodRestaurant {
+  translation -20.1815 -8.8437 -44.6761
+  rotation 0.7071067956638433 0.5773498331603562 0.40824888202629633 -2.094395307179586
 }
