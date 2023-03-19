@@ -53,6 +53,9 @@ class Rover:
 
         self.imu = self.robot.getDevice("inertial unit")
         self.imu.enable(self.timestep)
+        
+        self.accel = self.robot.getDevice("accelerometer")
+        self.accel.enable(self.timestep)
 
         self.compass = self.robot.getDevice("compass")
         self.compass.enable(self.timestep)
@@ -127,8 +130,10 @@ class Rover:
     def send_sensor_update(self):
         if current_milli_time() - self.sensor_update_timer > self.UPDATE_RATE:
             lat, lon, alt = self.gps.getValues()
-            print(lat,lon,alt)
+            #print(lat,lon,alt)
             roll, pitch, yaw = self.imu.getRollPitchYaw()
+            x_accel, y_accel, z_accel = self.accel.getValues()
+            print("ACCEL: ", x_accel, y_accel, z_accel)
 
             # Some lambdas to handle sensor data conversion
             # conv_gps_to_int = lambda x: 0 if math.isnan(x) else int(x * 1e7)
@@ -144,10 +149,13 @@ class Rover:
             roll = math.degrees(roll)
             pitch = math.degrees(pitch)
             yaw = math.degrees(yaw)
-            print(yaw)
+            
+            print("IMU: ", roll, pitch, yaw)
+            print()
 
             if yaw < 0:
                 yaw = 360 + yaw
+
 
             # Send GPS to Autonomy (and other subscribers)
             packet = RoveCommPacket(int(5100), "d", (lat, lon), "127.0.0.1", 11000)
@@ -155,6 +163,10 @@ class Rover:
 
             # Send the rover ortientation to Autonomy (and other subscribers)
             packet = RoveCommPacket(int(5101), "f", (pitch, yaw, roll), "127.0.0.1", 11000)
+            self.rovecomm_node.write(packet, False)
+            
+            # Send the rover accelerometer values to Autonomy. (and other subscribers)
+            packet = RoveCommPacket(int(5104), "f", (x_accel, y_accel, z_accel), "127.0.0.1", 11000)
             self.rovecomm_node.write(packet, False)
 
             # Update the timer
