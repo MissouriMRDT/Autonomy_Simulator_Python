@@ -151,7 +151,7 @@ class Rover:
             yaw = math.degrees(yaw)
             
             print("IMU: ", roll, pitch, yaw)
-            print()
+            print("GPS: ", lat, lon, alt)
 
             if yaw < 0:
                 yaw = 360 + yaw
