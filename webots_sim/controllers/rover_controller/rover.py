@@ -8,7 +8,6 @@ import struct
 import cv2
 import gzip
 import select
-import asyncio
 
 # Quick lambda to return current time in ms
 current_milli_time = lambda: int(round(time.time() * 1000))
@@ -21,9 +20,6 @@ class Rover:
 
         # The update rate for telemetry/commands
         self.UPDATE_RATE = 100
-
-        # Define the timestep for polling sensors in virtual world.
-        self.timestep = 64
 
         # The max motor speed in radians
         self.MAX_SPEED = 4
@@ -46,29 +42,22 @@ class Rover:
 
         # Grab all the devices on the rover and enable them
         self.gps = self.robot.getDevice("gps")
-        self.gps.enable(self.timestep)
+        self.gps.enable(64)
 
         self.camera = self.robot.getDevice("camera")
-        self.camera.enable(self.timestep)
+        self.camera.enable(64)
 
         self.imu = self.robot.getDevice("inertial unit")
-        self.imu.enable(self.timestep)
-        
-        self.accel = self.robot.getDevice("accelerometer")
-        self.accel.enable(self.timestep)
+        self.imu.enable(64)
 
         self.compass = self.robot.getDevice("compass")
-        self.compass.enable(self.timestep)
+        self.compass.enable(64)
 
         self.pen = self.robot.getDevice("pen")
         self.pen.write(True)
 
         self.depth = self.robot.getDevice("range-finder")
-        self.depth.enable(self.timestep)
-
-        self.lidar = self.robot.getDevice("lidar")
-        self.lidar.enable(self.timestep)
-        self.lidar.enablePointCloud()
+        self.depth.enable(64)
 
         # Set up some timers to use for watchdogs/telemetry rates
         self.sensor_update_timer = current_milli_time()
@@ -87,7 +76,7 @@ class Rover:
         self.server_socket.bind(socket_address)
 
         # Socket Listen
-        self.server_socket.listen(65535)
+        self.server_socket.listen(5)
         print("LISTENING AT:", socket_address)
 
         # The client socket (in this case Autonomy running in SIM mode)
@@ -95,14 +84,8 @@ class Rover:
 
         # The parameters for encoding images
         self.encode_param = [int(cv2.IMWRITE_JPEG_QUALITY), 90]
-        
-        # Thread stopping toggle.
-        self.stop = False
 
     def close(self):
-        # Set stopping toggle.
-        self.stop = True
-        # Close socket connection.
         if self.client_socket != None:
             self.client_socket.shutdown()
             self.client_socket.close()
@@ -130,10 +113,7 @@ class Rover:
     def send_sensor_update(self):
         if current_milli_time() - self.sensor_update_timer > self.UPDATE_RATE:
             lat, lon, alt = self.gps.getValues()
-            #print(lat,lon,alt)
             roll, pitch, yaw = self.imu.getRollPitchYaw()
-            x_accel, y_accel, z_accel = self.accel.getValues()
-            print("ACCEL: ", x_accel, y_accel, z_accel)
 
             # Some lambdas to handle sensor data conversion
             # conv_gps_to_int = lambda x: 0 if math.isnan(x) else int(x * 1e7)
@@ -149,13 +129,11 @@ class Rover:
             roll = math.degrees(roll)
             pitch = math.degrees(pitch)
             yaw = math.degrees(yaw)
-            
-            print("IMU: ", roll, pitch, yaw)
-            print("GPS: ", lat, lon, alt)
 
             if yaw < 0:
                 yaw = 360 + yaw
 
+            print(lat, lon)
 
             # Send GPS to Autonomy (and other subscribers)
             packet = RoveCommPacket(int(5100), "d", (lat, lon), "127.0.0.1", 11000)
@@ -164,111 +142,55 @@ class Rover:
             # Send the rover ortientation to Autonomy (and other subscribers)
             packet = RoveCommPacket(int(5101), "f", (pitch, yaw, roll), "127.0.0.1", 11000)
             self.rovecomm_node.write(packet, False)
-            
-            # Send the rover accelerometer values to Autonomy. (and other subscribers)
-            packet = RoveCommPacket(int(5104), "f", (x_accel, y_accel, z_accel), "127.0.0.1", 11000)
-            self.rovecomm_node.write(packet, False)
 
             # Update the timer
             self.sensor_update_timer = current_milli_time()
 
     def stream_frame(self):
-        while not self.stop:
-            if current_milli_time() - self.camera_update_timer > (1000 / 15):
-                # stream the camera feed directly to autonomy
-                if len(select.select([self.server_socket], [], [], 0)[0]) > 0:
-                    self.client_socket, addr = self.server_socket.accept()
-                    print("GOT CONNECTION FROM:", addr)
-    
-                # If we had a socket connection, at least attempt to stream frames
-                if self.client_socket:
-                    # Grab the frame from the camera and convert to numpy array
-                    frame = self.camera.getImage()
-                    frame = np.frombuffer(frame, np.uint8).reshape((self.camera.getHeight(), self.camera.getWidth(), 4))
-    
-                    # Encode the frame before we transmit it, reduces size and speeds up process
-                    result, frame = cv2.imencode(".jpg", frame, self.encode_param)
-    
-                    # Pickle the frame, and send it over socket
-                    a = pickle.dumps(frame)
-                    # Pack message, specify this is "r"egular image
-                    message = struct.pack("Q", len(a)) + "r".encode() + a
-    
-                    # Check if there is an available socket to send on
-                    try:
-                        self.client_socket.sendall(message)
-                    except socket.error:
-                        self.client_socket = None
-                        return
-    
-                    # Do the same for the depth frame
-                    depth_frame = self.depth.getRangeImage()
-                    depth_frame = [x * 1000 for x in depth_frame]
-    
-                    # Depth is a float, so convert those to bytes
-                    depth_frame = struct.pack("%sf" % len(depth_frame), *depth_frame)
-    
-                    # Compress/Pickle the frame, and send it over socket
-                    a = gzip.compress(pickle.dumps(depth_frame))
-                    # Pack message, specify this is "d"epth data
-                    message = struct.pack("Q", len(a)) + "d".encode() + a
-                    
-                    # Check if there is an available socket to send on
-                    try:
-                        self.client_socket.sendall(message)
-                    except socket.error:
-                        self.client_socket = None
-                        return
-                    
-                    # Do the same for the point cloud.
-                    point_cloud = self.lidar.getPointCloud(data_type="buffer") # buffer bytearray is faster than list.
-                    # Read the buffer byte data into a numpy array for fast processing.
-                    point_cloud = np.frombuffer(point_cloud, dtype=np.float32)
-                    # Reshape the array to create a point cloud image frame with the size of 1280x720 (same as configured in lidar properties.)
-                    point_cloud = point_cloud.reshape((self.lidar.getNumberOfLayers(), self.lidar.getHorizontalResolution(), 5))
-                    # Cutoff last value. The values are now x,y,z,pointlayer. The pointlayer is useless, but we need a forth value to emulate what the zed cam returns.
-                    point_cloud = point_cloud[:,:,:4]
-                    # Create new copy since point_cloud is read-only.
-                    pcd = point_cloud.copy()
-                    # Remove infinity.
-                    pcd[np.isinf(pcd)] = 0
-                    pcd[np.isneginf(pcd)] = 0
-                    # Convert meters to millimeters.
-                    pcd *= 1000
-                    # Scale oll ofthe values between 0-255 since we will be encoding to an image for speed. This reduces accuracy to +-40cm.
-                    minmax = np.array([pcd.min(), pcd.max()], dtype=np.float32)
-                    pcd = np.interp(pcd, (pcd.min(), pcd.max()), (0, 255))
-                    # Round floats to int values.
-                    pcd = np.rint(pcd)
-                    # Convert array to int32.
-                    pcd = pcd.astype(np.int32)
-                    
-                    # Encode the frame before we transmit it, reduces size and speeds up process
-                    result, point_cloud_frame = cv2.imencode(".png", pcd, [int(cv2.IMWRITE_PNG_COMPRESSION), 3])
-                    # Pickle the frame, and send it over socket
-                    a = pickle.dumps(point_cloud_frame)
-                    # Pack message, specify this is "p"ointcloud image
-                    message = struct.pack("Q", len(a)) + "p".encode() + a
-    
-                    # Check if there is an available socket to send on
-                    try:
-                        self.client_socket.sendall(message)
-                    except socket.error:
-                        self.client_socket = None
-                        return
-                        
-                    
-                    # minmax is a float, so convert those to bytes
-                    minmax = minmax.tobytes()
-                    # Attach the min and max values to the end of the message. This is used by the autonomy code to rescale things back to normal.
-                    message = struct.pack("Q", len(minmax)) + "m".encode() + minmax
-                    
-                    # Check if there is an available socket to send on
-                    try:
-                        self.client_socket.sendall(message)
-                    except socket.error:
-                        self.client_socket = None
-                        return
-                    
-    
-                self.camera_update_timer = current_milli_time()
+        if current_milli_time() - self.camera_update_timer > (1000 / 15):
+            # stream the camera feed directly to autonomy
+            if len(select.select([self.server_socket], [], [], 0)[0]) > 0:
+                self.client_socket, addr = self.server_socket.accept()
+                print("GOT CONNECTION FROM:", addr)
+
+            # If we had a socket connection, at least attempt to stream frames
+            if self.client_socket:
+                # Grab the frame from the camera and convert to numpy array
+                frame = self.camera.getImage()
+                frame = np.frombuffer(frame, np.uint8).reshape((self.camera.getHeight(), self.camera.getWidth(), 4))
+
+                # Encode the frame before we transmit it, reduces size and speeds up process
+                result, frame = cv2.imencode(".jpg", frame, self.encode_param)
+
+                # Pickle the frame, and send it over socket
+                a = pickle.dumps(frame)
+                # Pack message, specify this is "r"egular image
+                message = struct.pack("Q", len(a)) + "r".encode() + a
+
+                # Check if there is an available socket to send on
+                try:
+                    self.client_socket.sendall(message)
+                except socket.error:
+                    self.client_socket = None
+                    return
+
+                # Do the same for the depth frame
+                depth_frame = self.depth.getRangeImage()
+                depth_frame = [x * 1000 for x in depth_frame]
+
+                # Depth is a float, so convert those to bytes
+                depth_frame = struct.pack("%sf" % len(depth_frame), *depth_frame)
+
+                # Compress/Pickle the frame, and send it over socket
+                a = gzip.compress(pickle.dumps(depth_frame))
+                # Pack message, specify this is "d"epth data
+                message = struct.pack("Q", len(a)) + "d".encode() + a
+
+                # Check if there is an available socket to send on
+                try:
+                    self.client_socket.sendall(message)
+                except socket.error:
+                    self.client_socket = None
+                    return
+
+            self.camera_update_timer = current_milli_time()
