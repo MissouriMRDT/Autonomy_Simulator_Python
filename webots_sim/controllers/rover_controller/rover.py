@@ -22,7 +22,7 @@ class Rover:
         self.UPDATE_RATE = 100
 
         # The max motor speed in radians
-        self.MAX_SPEED = 4
+        self.MAX_SPEED = 20
 
         # Define the camera FPS
         self.FPS = 30
@@ -92,11 +92,12 @@ class Rover:
 
     def drive_callback(self, packet):
         left, right = packet.data
-        self.leftFrontMotor.setVelocity((left / 250) * self.MAX_SPEED)
-        self.leftBackMotor.setVelocity((left / 250) * self.MAX_SPEED)
+        # Rovecomm sends -1 to 1 for drive.
+        self.leftFrontMotor.setVelocity((left) * self.MAX_SPEED)
+        self.leftBackMotor.setVelocity((left) * self.MAX_SPEED)
 
-        self.rightMotor.setVelocity((right / 250) * self.MAX_SPEED)
-        self.rightBackMotor.setVelocity((right / 250) * self.MAX_SPEED)
+        self.rightMotor.setVelocity((right) * self.MAX_SPEED)
+        self.rightBackMotor.setVelocity((right) * self.MAX_SPEED)
 
         self.watchdog_timer = current_milli_time()
 
